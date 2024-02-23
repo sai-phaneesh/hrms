@@ -1,0 +1,51 @@
+app-signup {
+    padding-top: 6%;
+    background-color: rgb(242 242 242);
+    height: auto;
+
+    @media screen and (max-width: 992px) {
+        .hrms_icon {
+            width: 100px;
+            margin: auto;
+            margin-bottom: 0px;
+            margin-top: 60px;
+        }
+    }
+
+    .hrms_icon {
+        width: 100px;
+        margin-left: 18%;
+    }
+
+    ion-icon[name="eye"],
+    ion-icon[name="eye-off"] {
+        font-size: 24px;
+        color: #777;
+        cursor: pointer;
+    }
+
+    .login {
+        min-width: 36%;
+        max-width: 500px;
+        left: 30%;
+        padding: 0 auto;
+        border: 1px;
+        border-radius: 20px;
+        background-color: white;
+        padding: 40px;
+        margin: auto;
+        margin-top: 0;
+    }
+
+    .button-mint,
+    button {
+        background-color: var(--ion-color-mint) !important;
+    }
+
+    .invalid-feedback {
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #dc3545;
+      }
+}
