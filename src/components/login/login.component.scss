@@ -30,10 +30,6 @@ app-login {
     background-color: var(--ion-color-mint) !important;
   }
 
- .form-group{
-  padding-bottom: 10px;
- }
- 
  .forgot-password{
   float: right;
  }
@@ -43,7 +39,8 @@ app-login {
       width: 100px;
       margin: auto;
       margin-bottom: 0px;
-      margin-top: 60px;
+      margin-top: 50px;
+      padding-bottom: 11px;
     }
   }
 
@@ -52,5 +49,16 @@ app-login {
     margin-top: 0.25rem;
     font-size: 80%;
     color: #dc3545;
+  }
+
+  .eye-icon{
+    position: absolute;
+    right: 0;
+  }
+
+  .copy-right{
+    text-align: center;
+    padding: 8px;
+    color: #7f7c7c;
   }
 }

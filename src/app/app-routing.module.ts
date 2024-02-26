@@ -8,20 +8,17 @@ import { SignupComponent } from 'src/components/signup';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
-
-  // otherwise redirect to home
-  {
-    path: 'home',
-    pathMatch: 'full',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
-  },
+  { path: '', redirectTo: 'home/Inbox', pathMatch: 'full'},
   {
     path: 'home/:id',
     canActivate: [AuthGuard],
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  }
+  },
+   // otherwise redirect to home
+   {
+    path: '**',
+    redirectTo: 'home/Inbox',
+  },
 ];
 
 @NgModule({

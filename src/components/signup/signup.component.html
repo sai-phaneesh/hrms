@@ -3,44 +3,68 @@
     <h2>Create Account</h2>
     <p>Already have an acccount? <a href="/login">Login</a></p>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="6" size-xs="12" size-sm="6">
+                    <div class="form-group">
+                        <ion-input formControlName="firstName" label="First Name" label-placement="floating"
+                            fill="outline" [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }"
+                            placeholder="Enter Firstname"></ion-input>
+                        <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
+                            <div *ngIf="f['firstName'].errors['required']">First Name is required</div>
+                        </div>
+                    </div>
+                </ion-col>
+                <ion-col size="6" size-xs="12" size-sm="6">
+
+                    <div class="form-group">
+                        <ion-input formControlName="lastName" label="Last Name" label-placement="floating"
+                            fill="outline" [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }"
+                            placeholder="Enter Lastname"></ion-input>
+                        <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+                            <div *ngIf="f['lastName'].errors['required']">Last Name is required</div>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <div class="form-group" size="12">
+                        <ion-input formControlName="emailId" label="Email Id" label-placement="floating" fill="outline"
+                            placeholder="Enter Email Id"></ion-input>
+                        <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['emailId'].errors['required']">Email Id is required</div>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <div class="form-group">
+                        <ion-input formControlName="password" label="Password"
+                            type="{{ showPassword ? 'text' : 'password' }}" label-placement="floating" fill="outline"
+                            placeholder="Enter password">
+                            <ion-icon *ngIf="registerForm.value.password" name="{{ showPassword ? 'eye' : 'eye-off' }}"
+                                slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+                        </ion-input>
+                        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                            <div *ngIf="f['password'].errors['required']">Password is required</div>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="auto"><ion-checkbox justify="start" /></ion-col>
+                <ion-col>I agree to HRMS <a href="/">terms of service</a> and <a href="/">Privacy policy</a></ion-col>
+            </ion-row>
+
+        </ion-grid>
         <div class="form-group">
-            <ion-input formControlName="firstName" label="First Name" label-placement="floating" fill="outline"
-                [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" placeholder="Enter Firstname"></ion-input>
-            <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-                <div *ngIf="f['firstName'].errors['required']">First Name is required</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <ion-input formControlName="lastName" label="Last Name" label-placement="floating" fill="outline"
-                [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" placeholder="Enter Lastname"></ion-input>
-            <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-                <div *ngIf="f['lastName'].errors['required']">Last Name is required</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <ion-input formControlName="emailId" label="Email Id" label-placement="floating" fill="outline"
-                placeholder="Enter Email Id"></ion-input>
-            <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
-                <div *ngIf="f['emailId'].errors['required']">Email Id is required</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <ion-input formControlName="password" label="Password" type="{{ showPassword ? 'text' : 'password' }}"
-                label-placement="floating" fill="outline" placeholder="Enter password">
-                <ion-icon *ngIf="registerForm.value.password" name="{{ showPassword ? 'eye' : 'eye-off' }}" slot="end"
-                    (click)="togglePasswordVisibility()"></ion-icon>
-            </ion-input>
-            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                <div *ngIf="f['password'].errors['required']">Password is required</div>
-            </div>
-        </div>
-        <ion-checkbox justify="start"/>
-        <p>I agree to HRMS terms of service and Privacy policy</p>
-        <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary">Register</button>
+            <ion-button [disabled]="loading" expand="block" class="btn button-mint" type="submit">Create
+                Account</ion-button>
             <img *ngIf="loading"
                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
         </div>
     </form>
+
 </div>

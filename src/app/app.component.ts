@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SplashScreen } from '@capacitor/splash-screen';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,13 +8,22 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/home/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/home/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/home/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/home/archived', icon: 'archive' },
-    { title: 'Trash', url: '/home/trash', icon: 'trash' },
-    { title: 'Spam', url: '/home/spam', icon: 'warning' },
+    { title: 'Leave Management', url: '/home/leave', icon: 'mail' },
+    { title: 'Assets', url: '/home/assets', icon: 'paper-plane' },
+    // { title: 'Favorites', url: '/home/favorites', icon: 'heart' },
+    // { title: 'Archived', url: '/home/archived', icon: 'archive' },
+    // { title: 'Trash', url: '/home/trash', icon: 'trash' },
+    // { title: 'Spam', url: '/home/spam', icon: 'warning' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public labels = ['Levae management', 'Assets', 
+  // 'Notes', 'Work', 'Travel', 'Reminders'
+];
   constructor() {}
+
+  async ngOnInit() {
+    await SplashScreen.show({
+      showDuration: 2000,
+      autoHide: true,
+    });
+  }
 }

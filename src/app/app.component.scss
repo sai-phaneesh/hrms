@@ -49,12 +49,21 @@ ion-menu.md ion-item {
   border-radius: 4px;
 }
 
+ion-menu ion-item.selected {
+  background-color: var(--ion-color-primary);
+  color: white;
+}
+
+ion-menu ion-item.selected::hover {
+  color: red;
+}
+
 ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  --background: rgba(var(--ion-color-primary), 0.14);
 }
 
 ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: white;
 }
 
 ion-menu.md ion-item ion-icon {
@@ -107,6 +116,12 @@ ion-menu.ios ion-note {
   margin-bottom: 8px;
 }
 
+@media screen and (min-width: 970px) {
+  ion-menu {
+    max-width: 16%;
+  }
+}
+
 ion-note {
   display: inline-block;
   font-size: 16px;
@@ -115,5 +130,6 @@ ion-note {
 }
 
 ion-item.selected {
-  --color: var(--ion-color-primary);
+  // --color: var(--ion-color-primary);
+  --color: white;
 }

@@ -3,27 +3,53 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <h1>Welcome back</h1>
         <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-        <div class="form-group">
-            <ion-input formControlName="emailId" label="Email Id" label-placement="floating" fill="outline"
-                placeholder="Enter Email Id"></ion-input>
-            <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
-                <div *ngIf="f['emailId'].errors['required']">Email Id is required</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <ion-input formControlName="password" label="Password" type="{{ showPassword ? 'text' : 'password' }}"
-                label-placement="floating" fill="outline" placeholder="Enter password">
-                <ion-icon *ngIf="loginForm.value.password" name="{{ showPassword ? 'eye' : 'eye-off' }}" slot="end"
-                    (click)="togglePasswordVisibility()"></ion-icon>
-            </ion-input>
-            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                <div *ngIf="f['password'].errors['required']">Password is required</div>
-            </div>
-        </div>
-        <a href="" class="forgot-password">Forgot Password</a><br/><br/>
-        <div class="form-group">
-            <ion-button [disabled]="loading" expand="block" class="btn button-mint" type="submit">Login</ion-button>
-            <!-- <ion-button [routerLink]="['/signup']" class="btn btn-link">Register</ion-button> -->
-        </div>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <div class="form-group">
+                        <ion-input formControlName="emailId" label="Email Id" label-placement="floating" fill="outline"
+                            placeholder="Enter Email Id"></ion-input>
+                        <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['emailId'].errors['required']">Email Id is required</div>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+
+                    <div class="form-group">
+                        <ion-input formControlName="password" label="Password"
+                            type="{{ showPassword ? 'text' : 'password' }}" label-placement="floating" fill="outline"
+                            placeholder="Enter password">
+                            <ion-icon class="eye-icon" *ngIf="loginForm.value.password" name="{{ showPassword ? 'eye' : 'eye-off' }}"
+                                slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+                        </ion-input>
+                        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                            <div *ngIf="f['password'].errors['required']">Password is required</div>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+
+                    <a href="" class="forgot-password">Forgot Password</a><br /><br />
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <div class="form-group">
+                        <ion-button [disabled]="loading" expand="block" class="btn button-mint"
+                            type="submit">Login</ion-button>
+                        <!-- <ion-button [routerLink]="['/signup']" class="btn btn-link">Register</ion-button> -->
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
     </form>
+    
+</div>
+<div class="copy-right">
+    Copyright &#64;2020 Produced by HRMS
 </div>

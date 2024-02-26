@@ -3,8 +3,11 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+          <!-- <ion-list-header>HRMS</ion-list-header>
+          <ion-note>hi&#64;ionicframework.com</ion-note> -->
+          <div style="width: 100px; padding-bottom: 16px; padding-left: 10px;">
+            <img src="/assets/icon/hrms_icon.png" class="hrms_icon">
+          </div>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">

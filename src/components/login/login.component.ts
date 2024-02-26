@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, AuthenticationService } from '../services';
+import { MenuController } from '@ionic/angular';
 
 @Component({
     selector: 'app-login',
@@ -17,13 +18,13 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     showPassword: boolean = false;
-
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) {}
+        private alertService: AlertService,
+        public menuCtrl: MenuController) {}
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -36,6 +37,10 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    }
+
+    ionViewWillEnter() {
+        this.menuCtrl.enable(false);
     }
 
     // convenience getter for easy access to form fields
@@ -55,11 +60,14 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     alert(this.returnUrl);
+                    this.menuCtrl.enable(true);
                     this.router.navigate(['/home/Inbox']);
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
+                    //delete below lines after api integration
+                    this.menuCtrl.enable(true);
                     this.router.navigate(['/home/Inbox']);
                 });
     }
