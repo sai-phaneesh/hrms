@@ -4,10 +4,12 @@ import { AuthGuard } from 'src/components/guards';
 import { HomeComponent } from 'src/components/home';
 import { LoginComponent } from 'src/components/login';
 import { SignupComponent } from 'src/components/signup';
+import { ForgotPasswordComponent} from 'src/components/forgotPassword';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'home/Inbox', pathMatch: 'full'},
   {
     path: 'home/:id',

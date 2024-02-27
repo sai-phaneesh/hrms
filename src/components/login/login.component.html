@@ -1,7 +1,7 @@
 <img src="/assets/icon/hrms_icon.png" class="hrms_icon">
 <div class="login">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <h1>Welcome back</h1>
+        <span class="title">Welcome back</span>
         <p>Don't have an account? <a href="/signup">Sign Up</a></p>
         <ion-grid>
             <ion-row>
@@ -34,7 +34,7 @@
             <ion-row>
                 <ion-col>
 
-                    <a href="" class="forgot-password">Forgot Password</a><br /><br />
+                    <a href="/forgot-password" class="forgot-password">Forgot Password</a><br /><br />
                 </ion-col>
             </ion-row>
             <ion-row>
