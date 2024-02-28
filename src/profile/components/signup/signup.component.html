@@ -1,7 +1,7 @@
 <img src="/assets/icon/hrms_icon.png" class="hrms_icon">
 <div class="login">
     <h2>Create Account</h2>
-    <p>Already have an acccount? <a href="/login">Login</a></p>
+    <p>Already have an acccount? <a [routerLink]="['/login']">Login</a></p>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <ion-grid>
             <ion-row>

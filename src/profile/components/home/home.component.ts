@@ -1,9 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { NgFor } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss',
+    standalone: true,
+    imports: [
+        IonicModule,
+        NgFor,
+        RouterLinkActive,
+        RouterLink,
+    ],
 })
 export class HomeComponent  implements OnInit {
   public appPages = [

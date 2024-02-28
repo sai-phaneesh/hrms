@@ -1,12 +1,30 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app/app-routing.module';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { AlertService, AuthenticationService, UserService } from 'src/common/services';
+import { AuthGuard } from 'src/common/guards';
+import { IonicRouteStrategy, IonicModule } from '@ionic/angular';
+import { RouteReuseStrategy } from '@angular/router';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, {
+    providers: [
+        importProvidersFrom(BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule),
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        AuthGuard,
+        AlertService,
+        AuthenticationService,
+        UserService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
   .catch(err => console.log(err));

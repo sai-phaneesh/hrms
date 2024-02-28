@@ -1,16 +1,26 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, UserService } from 'src/common/services';;
-import { MenuController } from '@ionic/angular';
+import { MenuController, IonicModule } from '@ionic/angular';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-signup',
     templateUrl: 'signup.component.html',
-    styleUrl:'./signup.component.scss',
+    styleUrl: './signup.component.scss',
     encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        NgClass,
+        NgIf,
+        RouterLink
+    ],
 })
 export class SignupComponent implements OnInit {
     registerForm: FormGroup;

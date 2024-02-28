@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -8,36 +8,24 @@ import { MenuController, IonicModule } from '@ionic/angular';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-fp',
-    templateUrl: 'fp.component.html',
-    styleUrl: 'fp.component.scss',
+    selector: 'app-card',
+    templateUrl: 'card.component.html',
+    styleUrl: 'card.component.scss',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        NgIf,
         IonicModule,
-        RouterLink,
+        NgIf,
     ],
 })
-export class ForgotPasswordComponent implements OnInit {
-    fpForm: FormGroup;
+export class LoginComponent implements OnInit {
+    loginForm: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
     showPassword: boolean = false;
-    
-    forgotPasswordLabel = "Forgot Password";
-    primaryContent = "Enter the email you used to create your account so we can send you instruction on how to reset your password."
-    checkEmailLabel = "Check your Email";
-    sentTitle = "We have sent an email with password information to ";
-    checkSpamLabel = "Didn't recceive the email? Check spam or promotion folder"
-    sendTitle = "Send";
-    
-    title: string=this.forgotPasswordLabel;
-    content: string = this.primaryContent;
-
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -47,8 +35,9 @@ export class ForgotPasswordComponent implements OnInit {
         public menuCtrl: MenuController) {}
 
     ngOnInit() {
-        this.fpForm = this.formBuilder.group({
+        this.loginForm = this.formBuilder.group({
             emailId : ['', Validators.required],
+            password: ['', Validators.required]
         });
 
         // reset login status
@@ -63,34 +52,31 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.fpForm.controls; }
+    get f() { return this.loginForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
+
         // stop here if form is invalid
-        if (this.fpForm.invalid) {
+        if (this.loginForm.invalid) {
             return;
         }
 
         this.loading = true;
-        this.authenticationService.forgotPassword(this.f['emailId'].value)
+        this.authenticationService.login(this.f['emailId'].value, this.f['password'].value)
             .pipe(first())
             .subscribe(
                 data => {
-                    this.title = this.checkEmailLabel;
-                    this.content = this.sentTitle;
-                    this.submitted = true;
-                    this.sendTitle = "Resend";
+                    alert(this.returnUrl);
+                    this.menuCtrl.enable(true);
+                    this.router.navigate(['/home/leave']);
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
-
-                    this.title = this.checkEmailLabel;
-                    this.content = this.sentTitle;
-                    this.submitted = true;
-                    this.sendTitle = "Resend";
-
                     //delete below lines after api integration
+                    this.menuCtrl.enable(true);
+                    this.router.navigate(['/home/leave']);
                 });
     }
 

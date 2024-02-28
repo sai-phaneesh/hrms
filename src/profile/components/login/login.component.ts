@@ -1,16 +1,25 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, AuthenticationService } from 'src/common/services';
-import { MenuController } from '@ionic/angular';
+import { MenuController, IonicModule } from '@ionic/angular';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-login',
     templateUrl: 'login.component.html',
     styleUrl: 'login.component.scss',
     encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        NgIf,
+        RouterLink
+    ],
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;

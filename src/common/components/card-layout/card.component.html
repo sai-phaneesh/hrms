@@ -2,7 +2,7 @@
 <div class="login">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <span class="title">Welcome back</span>
-        <p>Don't have an account? <a [routerLink]="['/signup']">Sign Up</a></p>
+        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
         <ion-grid>
             <ion-row>
                 <ion-col>
@@ -34,7 +34,7 @@
             <ion-row>
                 <ion-col>
 
-                    <a [routerLink]="['/forgot-password']" class="forgot-password">Forgot Password</a><br /><br />
+                    <a href="/forgot-password" class="forgot-password">Forgot Password</a><br /><br />
                 </ion-col>
             </ion-row>
             <ion-row>

@@ -1,10 +1,20 @@
 import { Component } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { NgFor } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        NgFor,
+        RouterLinkActive,
+        RouterLink,
+    ],
 })
 export class AppComponent {
   public appPages = [
