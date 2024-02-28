@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HomeComponent } from 'src/components/home';
-import { LoginComponent } from 'src/components/login';
-import { ForgotPasswordComponent } from 'src/components/forgotPassword';
-import { AlertService, AuthenticationService, UserService } from 'src/components/services';
-import { SignupComponent } from 'src/components/signup';
+import { HomeComponent } from 'src/profile/components/home';
+import { LoginComponent } from 'src/profile/components/login';
+import { ForgotPasswordComponent } from 'src/profile/components/forgotPassword';
+import { AlertService, AuthenticationService, UserService } from 'src/common/services';
+import { SignupComponent } from 'src/profile/components/signup';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertComponent } from 'src/components/directives/alert.component';

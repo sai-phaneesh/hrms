@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/components/guards';
-import { HomeComponent } from 'src/components/home';
-import { LoginComponent } from 'src/components/login';
-import { SignupComponent } from 'src/components/signup';
-import { ForgotPasswordComponent} from 'src/components/forgotPassword';
+// import { HomeComponent } from 'src/profile/components/home';
+import { LoginComponent } from 'src/profile/components/login';
+import { SignupComponent } from 'src/profile/components/signup';
+import { ForgotPasswordComponent} from 'src/profile/components/forgotPassword';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: '', redirectTo: 'home/Inbox', pathMatch: 'full'},
+  { path: '', redirectTo: 'home/leave', pathMatch: 'full'},
   {
     path: 'home/:id',
     canActivate: [AuthGuard],
@@ -19,7 +19,7 @@ const routes: Routes = [
    // otherwise redirect to home
    {
     path: '**',
-    redirectTo: 'home/Inbox',
+    redirectTo: 'home/leave',
   },
 ];
 

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AlertService, UserService } from '../services';
+import { AlertService, UserService } from 'src/common/services';;
 import { MenuController } from '@ionic/angular';
 
 @Component({
@@ -64,7 +64,7 @@ export class SignupComponent implements OnInit {
                     this.loading = false;
                      //delete below lines after api integration
                      this.menuCtrl.enable(true);
-                     this.router.navigate(['/home/Inbox']);
+                     this.router.navigate(['/home/leave']);
                 });
     }
 
