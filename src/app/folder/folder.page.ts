@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-folder',
     templateUrl: './folder.page.html',
     styleUrls: ['./folder.page.scss'],
     standalone: true,
-    imports: [IonicModule],
+    imports: [IonicModule, RouterModule],
 })
 export class FolderPage implements OnInit {
   public folder!: string;

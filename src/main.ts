@@ -7,6 +7,7 @@ import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertService, AuthenticationService, UserService } from 'src/common/services';
 import { AuthGuard } from 'src/common/guards';
 import { IonicRouteStrategy, IonicModule } from '@ionic/angular';
@@ -18,7 +19,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule),
+        importProvidersFrom(BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule),
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         AuthGuard,
         AlertService,

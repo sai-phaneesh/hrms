@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'leave',
     component: LeaveComponent
+  },
+  {
+    path: 'leave55',
+    component: LeaveComponent
   }
 ];
 
