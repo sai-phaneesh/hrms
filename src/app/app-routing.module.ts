@@ -4,13 +4,13 @@ import { AuthGuard } from 'src/common/guards';
 // import { HomeComponent } from 'src/profile/components/home';
 import { LoginComponent } from 'src/profile/components/login';
 import { SignupComponent } from 'src/profile/components/signup';
-import { ForgotPasswordComponent} from 'src/profile/components/forgotPassword';
+import { ForgotPasswordComponent } from 'src/profile/components/forgotPassword';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  {path: 'signup', loadComponent: () => import('src/profile/components/signup/index').then(mod => mod.SignupComponent)},
-  {path: 'forgot-password', loadComponent: () => import('src/profile/components/forgotPassword/fp.component').then(mod => mod.ForgotPasswordComponent)},
-  {path: 'home/leave',canActivate: [AuthGuard], loadComponent: () => import('src/leaveManagement/components/leave/leave.component').then(mod => mod.LeaveComponent)},
+  { path: 'signup', loadComponent: () => import('src/profile/components/signup/index').then(mod => mod.SignupComponent) },
+  { path: 'forgot-password', loadComponent: () => import('src/profile/components/forgotPassword/fp.component').then(mod => mod.ForgotPasswordComponent) },
+  { path: 'home/leave', canActivate: [AuthGuard], loadComponent: () => import('src/leaveManagement/components/leave/leave.component').then(mod => mod.LeaveComponent) },
 
   // { path: 'signup', component: SignupComponent },
   // { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -20,8 +20,8 @@ const routes: Routes = [
   //   canActivate: [AuthGuard],
   //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   // },
-   // otherwise redirect to home
-   {
+  // otherwise redirect to home
+  {
     path: '**',
     redirectTo: 'home/leave',
   },
@@ -33,4 +33,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

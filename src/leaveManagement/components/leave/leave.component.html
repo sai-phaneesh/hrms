@@ -25,7 +25,25 @@
     </ion-row>
   </ion-grid>
 
-<app-table [displayData]="displayData"  [displayedColumns]="displayedColumns">
+
+<ion-segment (ionChange)="segmentChanged($event)" value="manager">
+  <ion-segment-button value="manager">
+    <ion-label>
+      Manager
+    </ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="myApproval">
+    <ion-label>
+      My Approval
+    </ion-label>
+  </ion-segment-button>
+</ion-segment>
+<app-table *ngIf="segment === 'manager'"
+[displayData]="displayData"  [displayedColumns]="displayedColumns" [approval]="approval">
+</app-table>
+
+<app-table *ngIf="segment === 'myApproval'"
+[displayData]="displayData"  [displayedColumns]="displayedColumns" [approval]="approval">
 </app-table>
 
 </ion-content>

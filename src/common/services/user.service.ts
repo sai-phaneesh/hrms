@@ -26,4 +26,16 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(`/users/` + id);
     }
+
+    signup(body: {
+        userName: string,
+        firstName: string,
+        lastName: string,
+        email: string,
+        password: string,
+        companyName: string,
+        companyRole: string
+    }) {
+        return this.http.post('/hrms/signUp', body);
+    }
 }

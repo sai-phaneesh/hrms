@@ -24,6 +24,7 @@ import { NgClass, NgIf } from '@angular/common';
 })
 export class SignupComponent implements OnInit {
     registerForm: FormGroup;
+    companydetailsForm: FormGroup;
     loading = false;
     submitted = false;
     showPassword: boolean = false;
@@ -41,7 +42,12 @@ export class SignupComponent implements OnInit {
             lastName: ['', Validators.required],
             emailId: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            tnc: [false, Validators.required]
+            tnc: [false, Validators.required],
+        });
+        this.companydetailsForm = this.formBuilder.group({
+            userName: ['', Validators.required],
+            companyName: ['', Validators.required],
+            companyRole: ['', Validators.required],
         });
     }
 
@@ -61,7 +67,7 @@ export class SignupComponent implements OnInit {
         }
 
         this.loading = true;
-        this.userService.register(this.registerForm.value)
+        this.userService.signup(this.registerForm.value)
             .pipe(first())
             .subscribe(
                 data => {

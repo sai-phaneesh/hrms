@@ -20,10 +20,13 @@ export class AppComponent {
   public appPages = [
     { title: 'Leave Management', url: '/home/leave', icon: 'mail' },
     { title: 'Assets', url: '/home/assets', icon: 'paper-plane' },
-    // { title: 'Favorites', url: '/home/favorites', icon: 'heart' },
-    // { title: 'Archived', url: '/home/archived', icon: 'archive' },
-    // { title: 'Trash', url: '/home/trash', icon: 'trash' },
-    // { title: 'Spam', url: '/home/spam', icon: 'warning' },
+    { title: 'Roles', url: '/home/favorites', icon: 'heart' },
+    { title: 'Dashboard', url: '/home/archived', icon: 'archive' },
+    { title: 'Groups', url: '/home/trash', icon: 'trash' },
+    { title: 'Timesheets', url: '/home/spam', icon: 'warning' },
+    { title: 'Shift Management', url: '/home/spam', icon: 'home' },
+    { title: 'Hiring', url: '/home/spam', icon: 'mail' },
+    { title: 'Company Settings', url: '/home/spam', icon: 'home' },
   ];
   public labels = ['Levae management', 'Assets', 
   // 'Notes', 'Work', 'Travel', 'Reminders'

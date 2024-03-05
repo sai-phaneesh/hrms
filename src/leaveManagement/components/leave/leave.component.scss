@@ -1,7 +1,30 @@
 app-leave {
-
+    --ion-background-color:--ion-content-background-color;
     ion-content{
-        --ion-background-color:#f2f2f2;
-    }   
-  
+        width: 96%;
+        left: 2%;
+    }
+    mat-table{
+        height: fit-content;
+    }
+
+    // ion-content{
+    //     --ion-background-color:#EFF4FA;;
+    // }   
+    ion-toolbar{
+        background-color: white;
+    }
+    ion-tab-bar {
+        top: 20%;
+        position: relative;
+    }
+
+    ion-segment{
+        background-color: white;
+    }
+
+    // app-table{
+    //     top: 85px;
+    // position: relative;
+    // }
 }

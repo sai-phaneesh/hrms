@@ -1,66 +1,44 @@
-<ion-content>
-    <!-- Use below code to enable filter -->
-    <!-- <div class="mattable-header">
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target)" placeholder="Filter">
-        </mat-form-field>
-    </div> -->
+<!-- <ion-content> -->
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
 
-    <!-- <div class="mattable-container mat-elevation-z8">
-
-        <table mat-table [dataSource]="dataSource" matSort>
-
-            <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+        <span *ngFor="let col of displayedColumns">
+            <ng-container *ngIf="col !== 'Approval'" [matColumnDef]="col">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{col}} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element[col]}} </mat-cell>
             </ng-container>
+        </span>
+        <ng-container matColumnDef="Approval" *ngIf="approval">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Approval Status </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button shape="round" [id]="'click-trigger-'+row.Position" class="approve-btn">
+                    <ion-icon name="radio-button-on-outline" class="{{row.Approval.toLowerCase()}}"></ion-icon>
+                    {{row.Approval}}
+                    <ion-icon name="caret-down-outline"></ion-icon>
+                </button>
+                <ion-popover trigger="click-trigger-{{row.Position}}" triggerAction="click">
+                    <ng-template>
+                        <ion-list>
+                            <ion-item [button]="true" [detail]="false"><ion-icon name="radio-button-on-outline"
+                                    class="new"></ion-icon>New</ion-item>
+                            <ion-item [button]="true" [detail]="false"><ion-icon name="radio-button-on-outline"
+                                    class="pending"></ion-icon>Pending</ion-item>
+                            <ion-item [button]="true" [detail]="false"><ion-icon name="radio-button-on-outline"
+                                    class="approved"></ion-icon>Approve</ion-item>
+                            <ion-item [button]="true" [detail]="false"><ion-icon name="radio-button-on-outline"
+                                    class="rejected"></ion-icon>Reject</ion-item>
+                        </ion-list> </ng-template>
+                </ion-popover>
+            </mat-cell>
+        </ng-container>
 
-            Progress Column
-            <ng-container matColumnDef="progress">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
-            </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"
+            class="animate__animated animate__slideInUp animate__fast"></mat-row>
+    </mat-table>
 
-            Name Column
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-            </ng-container>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>
 
-            Color Column
-            <ng-container matColumnDef="color">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;">
-            </mat-row>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    </div> -->
-    <div class="mat-elevation-z8">
-        <mat-table [dataSource]="dataSource" matSort>
-
-            <span *ngFor="let col of displayedColumns">
-                <ng-container [matColumnDef]="col">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{col}} </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element[col]}} </mat-cell>
-                </ng-container>
-            </span>
-            <!-- <ng-container matColumnDef="position">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> position </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.position}} </mat-cell>
-            </ng-container> -->
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-            aria-label="Select page of periodic elements">
-        </mat-paginator>
-    </div>
-
-    <ion-content>
+<!-- <ion-content> -->

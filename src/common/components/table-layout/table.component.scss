@@ -1,42 +1,57 @@
-// .mattable-container {
-//   display: flex;
-//   flex-direction: column;
-//   min-width: 300px;
-// }
+app-table {
+    mat-header-row {
+        background-color: #bbe4dd !important;
+    }
 
-// .mattable-header {
-//   min-height: 64px;
-//   padding: 8px 24px 0;
-// }
+    // .mat-column-Position{
+    //     color: #975a28fe;
+    // }
 
-// .mat-form-field {
-//   font-size: 14px;
-//   width: 100%;
-// }
+    mat-table {
+        .approve-btn {
+            border-radius: 14px;
+            padding: 8px;
+            display: flex;
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #b0b0b0;
+        }
+    }
 
-// .mat-table {
-//   overflow: auto;
-//   max-height: 500px;
-// }
+    ion-icon{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 
-// .mat-drawer-container {
-//   position: relative;
-//   z-index: 1;
-//   color: var(--mat-sidenav-content-text-color);
-//   background-color: var(--mat-sidenav-content-background-color);
-//   box-sizing: border-box;
-//   -webkit-overflow-scrolling: touch;
-//   display: block;
-//   overflow: hidden;
-// }
+    // ion-list {
 
-// app-component-viewer {
-//   font-weight: 400;
-//   width: calc(100% - 341px);
-//   padding: 20px 50px;
-// }
 
-// guide-viewer,
-// app-component-viewer {
-//   color: #000000de;
-// }
+
+
+    // }
+}
+
+.approved {
+    color: green;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.rejected {
+    color: red;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.pending {
+    color: skyblue;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.new {
+    color: purple;
+    padding-left: 5px;
+    padding-right: 5px;
+}

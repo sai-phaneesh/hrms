@@ -13,6 +13,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-table',
@@ -32,7 +33,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     MatSort,
     MatFormFieldModule,
     MatInputModule,
-    NgFor
+    NgFor,
+    NgIf,
+    MatIconModule
   ],
   providers: [
     provideAnimations()
@@ -43,38 +46,25 @@ export class TabelComponent {
  
   @Input() public displayedColumns: string[];
   @Input() public displayData: any;
+  @Input() public approval: boolean;
+
   public dataSource :any;
-
-
-  // displayedColumns: string[] = ['position', 'name', 'symbol', 'weight', 'aaa'];
-  // dataSource = new MatTableDataSource(this.displayData);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit() {
-  // this.displayedColumns = ['position', 'name', 'symbol', 'weight', 'aaa'];
-  // this.displayData = [
-  //     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', aaa:"aawa"},
-  //     {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', aaa:"aaad"},
-  //   ];
-
   this.dataSource = new MatTableDataSource(this.displayData);
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
   }
+
+  alert(i:string){
+    console.log(i);
+  }
 }
-
-//  displayData = [
-//   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', aaa:"aawa"},
-//   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', aaa:"aaad"},
-// ];
-
-
-//   @ViewChild(MatPaginator) paginator: MatPaginator;
-//   @ViewChild(MatSort) sort: MatSort;
 
 //   constructor() {
 //     // Create 100 users

@@ -4,6 +4,9 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
+  background-color: #EFF4FA;
+  --ion-toolbar-background-color: #fff;
+  --ion-content-background-color:#EFF4FA;
   --ion-color-primary: #00a88b;
   --ion-color-primary2: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -75,6 +78,7 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -84,7 +88,11 @@
    */
 
   body {
-    --ion-color-primary: #428cff;
+    background-color: #0d0d0d;
+    --ion-toolbar-background-color: #0d0d0d;
+    --ion-content-background-color:#EFF4FA;
+    --ion-color-primary: #00a88b;
+    --ion-color-primary2: #3880ff;
     --ion-color-primary-rgb: 66,140,255;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255,255,255;
@@ -242,4 +250,8 @@ html {
    * https://ionicframework.com/docs/layout/dynamic-font-scaling
    */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
+}
+
+ion-toolbar {
+  background-color: --ion-toolbar-background-color;
 }

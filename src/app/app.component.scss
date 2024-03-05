@@ -1,4 +1,7 @@
-ion-menu ion-content {
+ion-menu {
+  --ion-background-color:white;
+}
+ ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #fff));
 }
 
