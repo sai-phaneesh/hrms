@@ -28,7 +28,7 @@ export class AppComponent {
     { title: 'Hiring', url: '/home/spam', icon: 'mail' },
     { title: 'Company Settings', url: '/home/spam', icon: 'home' },
   ];
-  public labels = ['Levae management', 'Assets', 
+  public labels = ['Report', 'Settings', 
   // 'Notes', 'Work', 'Travel', 'Reminders'
 ];
   constructor() {}
