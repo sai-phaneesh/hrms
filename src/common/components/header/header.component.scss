@@ -1,0 +1,23 @@
+.header-title{
+    display: grid;
+}
+
+ion-title{
+    display: inline-grid;
+}
+
+.header-profile{
+    float: right;
+    display: flex;
+    padding-right: 30px;
+
+    ion-icon{
+        padding-right: 5px;
+        font-size: larger;    }
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .header-profile{
+        display: none;
+    }
+  }

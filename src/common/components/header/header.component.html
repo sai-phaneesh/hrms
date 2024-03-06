@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="header-title">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>{{title}}</ion-title>
+      <span class="header-profile">
+        <ion-icon name="people-outline"></ion-icon> Group &nbsp;
+        <ion-icon aria-hidden="true" slot="start" [ios]="'mail' + '-outline'" [md]="'mail' + '-outline'"></ion-icon> Mail  &nbsp;
+        <ion-icon name="notifications-outline"></ion-icon> Notification  &nbsp; |  &nbsp;
+        <ion-icon name="person-circle-outline" [routerLink]="['/home/profile']"></ion-icon>Hi, Alan  &nbsp;
+      </span>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">{{title}} ww</ion-title>
+      </ion-toolbar>
+    </ion-header>
