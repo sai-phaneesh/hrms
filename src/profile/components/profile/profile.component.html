@@ -9,20 +9,20 @@
       </ion-col>
       <ion-col size="9">
 
-
+        <!-- Tabs -->
         <ion-segment (ionChange)="segmentChanged($event)" value="Personal">
           <ion-segment-button value="Personal">
             <ion-label>
               Personal
             </ion-label>
           </ion-segment-button>
-          <ion-segment-button value="Work">
+          <ion-segment-button value="work">
             <ion-label>
               Work
             </ion-label>
           </ion-segment-button>
 
-          <ion-segment-button value="Education">
+          <ion-segment-button value="education">
             <ion-label>
               Education
             </ion-label>
@@ -39,104 +39,265 @@
               Official Letter
             </ion-label>
           </ion-segment-button>
-
-
         </ion-segment>
 
+        <!------------------------------------------- Tab/Segment == Personal --------------------------------------------->
+        <ion-card *ngIf="segment === 'Personal'">
+          <ion-card-header class="card-header">
+            <ion-card-title>Personal Info
+              <span>
+                <ion-icon (click)="personalInfoEnable(true)" name="pencil" style="float: right;"></ion-icon><br>
+              </span>
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <form [formGroup]="personalInfoForm">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Name" labelPlacement="stacked" formControlName="name"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Date of Birth" labelPlacement="stacked"
+                        formControlName="dateOfBirth"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Gender" labelPlacement="stacked" formControlName="gender"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Blood Group" labelPlacement="stacked" formControlName="bloodGroup"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Marital Status" labelPlacement="stacked"
+                        formControlName="maritalStatus"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+              <ion-item>
+
+                <ion-button [disabled]="!personalInfoEdit" (click)="updatePersonalInfo()">Save</ion-button>
+                <ion-button [disabled]="!personalInfoEdit" fill="clear"
+                  (click)="personalInfoEnable(false)">Cancel</ion-button>
+                  </ion-item>
+            </form>
+          </ion-card-content>
+        </ion-card>
 
         <ion-card *ngIf="segment === 'Personal'">
-          <ion-card-header>
-            <ion-card-title>Personal Info</ion-card-title>
+          <ion-card-header class="card-header">
+            <ion-card-title>Contact Info
+              <ion-icon (click)="contactInfoEnable(true)" name="pencil" style="float: right;"></ion-icon><br>
+            </ion-card-title>
             <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
           </ion-card-header>
 
           <ion-card-content>
-            <ion-grid>
-              <ion-row>
-                <ion-col size="4" class="">
-                  <ion-item>
-                    <ion-input label="Name" labelPlacement="stacked" placeholder="Alex" [disabled]="false"></ion-input>
-                  </ion-item>
-                </ion-col>
+            <form [formGroup]="contactInfoForm">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Office EmailId" labelPlacement="stacked"
+                        formControlName="officeMailId"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-                <ion-col size="4" class="">
-                  <ion-item>
-                    <ion-input label="Date of Birth" labelPlacement="stacked" placeholder="-"
-                      [disabled]="false"></ion-input>
-                  </ion-item>
-                </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Personal EmailId" labelPlacement="stacked"
+                        formControlName="contactMailId"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-                <ion-col size="4" class="">
-                  <ion-item>
-                    <ion-input label="Gender" labelPlacement="stacked" placeholder="Male"
-                      [disabled]="false"></ion-input>
-                  </ion-item>
-                </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Phone No." labelPlacement="stacked" formControlName="phoneNumber"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-                <ion-col size="4" class="">
-                  <ion-item>
-                    <ion-input label="Blood Group" labelPlacement="stacked" placeholder="O+ve"
-                      [disabled]="false"></ion-input>
-                  </ion-item>
-                </ion-col>
-                <ion-col size="4" class="">
-                  <ion-item>
-                    <ion-input label="Marital Status" labelPlacement="stacked" placeholder="Single"
-                      [disabled]="false"></ion-input>
-                  </ion-item>
-                </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Alternate No." labelPlacement="stacked"
+                        formControlName="altPhoneNum"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-              </ion-row>
-            </ion-grid>
+                </ion-row>
+              </ion-grid>
+            </form>
+
+            <ion-item>
+            
+              <ion-button [disabled]="!contactInfoEdit" type="submit"
+                (click)="contactInfoEnable(false)">Save</ion-button>
+              <ion-button fill="clear" [disabled]="!contactInfoEdit"
+                (click)="contactInfoEdit = false">Cancel</ion-button>
+            </ion-item>
           </ion-card-content>
-
-          <ion-button fill="clear" text-capitalize=“false”>Save</ion-button>
-          <ion-button fill="clear" text-capitalize=“false”>Cancel</ion-button>
         </ion-card>
 
-        <ion-card>
-        <ion-card-header>
-          <ion-card-title>Contact Info</ion-card-title>
-          <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
-        </ion-card-header>
+        <!------------------------------------------- Tab/Segment == Work --------------------------------------------->
+        <ion-card *ngIf="segment === 'work'">
+          <ion-card-header class="card-header">
+            <ion-card-title>Basic Info
+              <ion-icon (click)="basicInfoForm.enable()" name="pencil" style="float: right;"></ion-icon><br>
+            </ion-card-title>
+            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+          </ion-card-header>
 
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col size="4" class="">
-                <ion-item>
-                  <ion-input label="Office EmailId" labelPlacement="stacked" placeholder="Alex@google.com" [disabled]="false"></ion-input>
-                </ion-item>
-              </ion-col>
+          <ion-card-content>
+            <form [formGroup]="basicInfoForm">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Employee Id" labelPlacement="stacked" formControlName="employeeId"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-              <ion-col size="4" class="">
-                <ion-item>
-                  <ion-input label="Personal EmailId" labelPlacement="stacked" placeholder="-"
-                    [disabled]="false"></ion-input>
-                </ion-item>
-              </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Date Of Joining" labelPlacement="stacked"
+                        formControlName="dateOfJoining"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-              <ion-col size="4" class="">
-                <ion-item>
-                  <ion-input label="Phone No." labelPlacement="stacked" placeholder="Male"
-                    [disabled]="false"></ion-input>
-                </ion-item>
-              </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Work Experience" labelPlacement="stacked"
+                        formControlName="workExperience"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-              <ion-col size="4" class="">
-                <ion-item>
-                  <ion-input label="Alternate No." labelPlacement="stacked" placeholder="O+ve"
-                    [disabled]="false"></ion-input>
-                </ion-item>
-              </ion-col>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Probation Period" labelPlacement="stacked"
+                        formControlName="probationPeriod"></ion-input>
+                    </ion-item>
+                  </ion-col>
 
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Employee Type" labelPlacement="stacked"
+                        formControlName="employeeType"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </form>
 
-        <ion-button fill="clear" text-capitalize=“false”>Save</ion-button>
-        <ion-button fill="clear" text-capitalize=“false”>Cancel</ion-button>
-      </ion-card>
+            <ion-item>
+              <ion-button [disabled]="basicInfoForm.status === 'DISABLED'" type="submit"
+                (click)="updateBasicInfo()">Save</ion-button>
+              <ion-button fill="clear" [disabled]="basicInfoForm.status === 'DISABLED'"
+                (click)="basicInfoForm.disable()">Cancel</ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Work info -->
+        <ion-card *ngIf="segment === 'work'">
+          <ion-card-header class="card-header">
+            <ion-card-title>Work Info
+              <ion-icon (click)="workInfoForm.enable()" name="pencil" style="float: right;"></ion-icon><br>
+            </ion-card-title>
+            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+          </ion-card-header>
+
+          <ion-card-content>
+            <form [formGroup]="workInfoForm">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Designation" labelPlacement="stacked" formControlName="designation"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Job Title" labelPlacement="stacked" formControlName="jobTitle"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Department" labelPlacement="stacked" formControlName="department"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+            </form>
+            <ion-item>
+              <ion-button [disabled]="workInfoForm.status === 'DISABLED'" type="submit"
+                (click)="updateWorkInfo()">Save</ion-button>
+              <ion-button fill="clear" [disabled]="workInfoForm.status === 'DISABLED'"
+                (click)="workInfoForm.disable()">Cancel</ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Work history info -->
+        <ion-card *ngIf="segment === 'work'">
+          <ion-card-header class="card-header">
+            <ion-card-title>Work History Info
+              <ion-icon (click)="workHistoryInfoForm.enable()" name="pencil" style="float: right;"></ion-icon><br>
+            </ion-card-title>
+            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+          </ion-card-header>
+
+          <ion-card-content>
+            <form [formGroup]="workHistoryInfoForm">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Designation" labelPlacement="stacked" formControlName="designation"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="From" labelPlacement="stacked" formControlName="from"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
+                      <ion-input label="Till" labelPlacement="stacked" formControlName="till"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+            </form>
+            <ion-item>
+
+            <ion-button [disabled]="workHistoryInfoForm.status === 'DISABLED'" type="submit"
+              (click)="updateWorkHistoryInfo()">Save</ion-button>
+            <ion-button fill="clear" [disabled]="workHistoryInfoForm.status === 'DISABLED'"
+              (click)="workHistoryInfoForm.disable()">Cancel</ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+
       </ion-col>
     </ion-row>
   </ion-grid>

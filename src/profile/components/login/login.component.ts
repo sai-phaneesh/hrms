@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            emailId : ['', Validators.required],
+            emailId : ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
 
@@ -85,4 +85,5 @@ export class LoginComponent implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
+  
 }

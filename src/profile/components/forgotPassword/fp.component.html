@@ -2,7 +2,7 @@
 <div class="login">
     <form [formGroup]="fpForm" (ngSubmit)="onSubmit()">
         <span class="title">{{title}}</span>
-        <p>{{content}}<span *ngIf="submitted">{{fpForm.value.emailId}}</span></p>
+        <p>{{content}}<span *ngIf="submitted"><a>{{fpForm.value.emailId}}</a></span></p>
         <div class="form-group">
             <ion-input formControlName="emailId" label="Email Id" label-placement="floating" fill="outline"
                 placeholder="Enter Email Id" *ngIf="!submitted"></ion-input>

@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'hrms2',
+  appName: 'hrms',
   webDir: 'www',
   server: {
     androidScheme: 'https'

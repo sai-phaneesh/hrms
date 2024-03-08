@@ -48,7 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
 
     ngOnInit() {
         this.fpForm = this.formBuilder.group({
-            emailId : ['', Validators.required],
+            emailId : ['', [Validators.required, Validators.email]],
         });
 
         // reset login status
