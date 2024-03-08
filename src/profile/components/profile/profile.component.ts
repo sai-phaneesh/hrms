@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
   basicInfoForm: FormGroup;
   workInfoForm: FormGroup;
   workHistoryInfoForm: FormGroup;
+  educationInfoForm: FormGroup;
 
   constructor() {
     this.getUserInfo();
@@ -65,12 +66,22 @@ export class ProfileComponent implements OnInit {
       designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
       jobTitle: new FormControl({ value: '-', disabled: true }, Validators.required),
       department: new FormControl({ value: '-', disabled: true }, Validators.required),
-      });
+    });
 
     this.workHistoryInfoForm = new FormGroup({
       designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
       from: new FormControl({ value: '-', disabled: true }, Validators.required),
       till: new FormControl({ value: '-', disabled: true }, Validators.required),
+    });
+
+    this.educationInfoForm = new FormGroup({
+      employeeId: new FormControl({ value: 1233, disabled: true }, Validators.required,),
+      courseName: new FormControl({ value: '-', disabled: true }, Validators.required),
+      courseType: new FormControl({ value: '-', disabled: true }, Validators.required),
+      courseStartDate: new FormControl({ value: '-', disabled: true }, Validators.required),
+      courseEndDate: new FormControl({ value: '-', disabled: true }, Validators.required),
+      collegeName: new FormControl({ value: '-', disabled: true }, Validators.required),
+      universityName: new FormControl({ value: '-', disabled: true }, Validators.required),
     });
   }
 
@@ -96,14 +107,14 @@ export class ProfileComponent implements OnInit {
         state: "string",
         pinCode: "string",
       },
-       temporaryAddress: { 
+      temporaryAddress: {
         addressLine1: "string",
         addressLine2: "string",
         landmark: "string",
         city: "string",
         country: "string",
         state: "string",
-        pinCode: "string" 
+        pinCode: "string"
       }
     };
   }
@@ -120,9 +131,9 @@ export class ProfileComponent implements OnInit {
     console.log('update personal info');
   }
 
-  personalInfoEnable(value: boolean){
+  personalInfoEnable(value: boolean) {
     this.personalInfoEdit = value;
-    if(value){
+    if (value) {
       this.personalInfoForm.enable();
     }
     else {
@@ -130,9 +141,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  contactInfoEnable(value: boolean){
+  contactInfoEnable(value: boolean) {
     this.contactInfoEdit = value;
-    if(value){
+    if (value) {
       this.contactInfoForm.enable();
     }
     else {
@@ -140,24 +151,29 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  updateContactInfo(){
+  updateContactInfo() {
     this.basicInfoForm.disable();
     // api call
   }
 
-  updateBasicInfo(){
+  updateBasicInfo() {
     this.basicInfoForm.disable();
     // api call
   }
 
-  updateWorkInfo(){
+  updateWorkInfo() {
     this.workInfoForm.disable();
     // api call
   }
 
-  updateWorkHistoryInfo(){
+  updateWorkHistoryInfo() {
     this.workHistoryInfoForm.disable();
     // api call
+  }
+
+  updateEducationInfo() {
+    this.educationInfoForm.disable();
+    //api call
   }
 }
 
