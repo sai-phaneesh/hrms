@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
+import { withInterceptorsFromDi, provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -12,6 +12,9 @@ import { AlertService, AuthenticationService, UserService } from 'src/common/ser
 import { AuthGuard } from 'src/common/guards';
 import { IonicRouteStrategy, IonicModule } from '@ionic/angular';
 import { RouteReuseStrategy } from '@angular/router';
+import { JwtInterceptor } from 'src/common/helpers/jwt.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 if (environment.production) {
   enableProdMode();
@@ -26,6 +29,9 @@ bootstrapApplication(AppComponent, {
         AuthenticationService,
         UserService,
         provideHttpClient(withInterceptorsFromDi()),
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        JwtInterceptor,
+        HttpClient
     ]
 })
   .catch(err => console.log(err));

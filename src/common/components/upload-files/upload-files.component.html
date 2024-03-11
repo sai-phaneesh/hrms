@@ -18,13 +18,6 @@
     <input type="file" multiple (change)="selectFiles($event)" />
   </label>
   
-  <!-- <button
-    class="btn btn-success"
-    [disabled]="!selectedFiles"
-    (click)="uploadFiles()"
-  >
-    Upload
-  </button> -->
   <ion-button [disabled]="!selectedFiles"  (click)="uploadFiles()">Upload</ion-button>
   
   <div class="alert alert-light" role="alert">{{ message }}</div>

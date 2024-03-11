@@ -13,10 +13,10 @@ const routes: Routes = [
   { path: 'home/leave', canActivate: [AuthGuard], loadComponent: () => import('src/leaveManagement/components/leave/leave.component').then(mod => mod.LeaveComponent) },
   { path: 'home/profile', canActivate: [AuthGuard], loadComponent: () => import('src/profile/components/profile/profile.component').then(comp => comp.ProfileComponent) },
   // otherwise redirect to profile
-  // {
-  //   path: '**',
-  //   redirectTo: 'home/profile',
-  // },
+  {
+    path: '**',
+    redirectTo: 'home/profile',
+  },
 ];
 
 @NgModule({

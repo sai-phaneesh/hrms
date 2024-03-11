@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            emailId : ['', [Validators.required, Validators.email]],
+            userName : ['', Validators.required],
             password: ['', Validators.required]
         });
 
@@ -64,20 +64,16 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.login(this.f['emailId'].value, this.f['password'].value)
+        this.authenticationService.login(this.f['userName'].value, this.f['password'].value)
             .pipe(first())
             .subscribe(
                 data => {
-                    alert(this.returnUrl);
                     this.menuCtrl.enable(true);
-                    this.router.navigate(['/home/leave']);
+                    this.router.navigate(['/home/profile']);
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
-                    //delete below lines after api integration
-                    this.menuCtrl.enable(true);
-                    this.router.navigate(['/home/leave']);
                 });
     }
 
