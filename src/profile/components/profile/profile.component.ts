@@ -4,6 +4,9 @@ import { NgFor, NgIf } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from 'src/common/components/header/header.component';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { UploadDocComponent } from '../uploadDoc/index';
+import { UploadFilesComponent } from 'src/common/components/upload-files/upload-files.component';
 
 @Component({
   selector: 'app-profile',
@@ -18,26 +21,28 @@ import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angula
     HeaderComponent,
     NgIf,
     ReactiveFormsModule,
+    UploadFilesComponent,
   ]
 })
 export class ProfileComponent implements OnInit {
   public title = 'Profile';
   public imageAvailable: boolean = false;
-  segment: any = 'Personal';
+  segment: any = 'officialLetter';
   userData: any;
   basicInfoEdit: boolean;
-
   personalInfoEdit: boolean = false;
   contactInfoEdit: boolean = false;
-
+  docUpload: any;
+ 
   personalInfoForm: FormGroup;
   contactInfoForm: FormGroup;
   basicInfoForm: FormGroup;
   workInfoForm: FormGroup;
   workHistoryInfoForm: FormGroup;
   educationInfoForm: FormGroup;
+  documentInfoForm: FormGroup;
 
-  constructor() {
+  constructor( public dialog: MatDialog ) {
     this.getUserInfo();
     this.personalInfoForm = new FormGroup({
       name: new FormControl({ value: this.userData.name, disabled: !this.personalInfoEdit }, Validators.required,),
@@ -83,9 +88,19 @@ export class ProfileComponent implements OnInit {
       collegeName: new FormControl({ value: '-', disabled: true }, Validators.required),
       universityName: new FormControl({ value: '-', disabled: true }, Validators.required),
     });
+
+    this.documentInfoForm = new FormGroup({
+      fullName: new FormControl({ value: '-', disabled: true }, Validators.required,),
+      dateOfBirth: new FormControl({ value: '-', disabled: true }, Validators.required),
+      age: new FormControl({ value: '-', disabled: true }, Validators.required),
+      permanentAddress: new FormControl({ value: '-', disabled: true }, Validators.required),
+      uploadedDocument: new FormControl({ value: '-', disabled: true }, Validators.required),
+    });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // this.addDocs();
+  }
 
   getUserInfo() {
     //get method to get info
@@ -174,6 +189,23 @@ export class ProfileComponent implements OnInit {
   updateEducationInfo() {
     this.educationInfoForm.disable();
     //api call
+  }
+
+  addDocs() {
+    this.docUpload = this.dialog.open(UploadDocComponent, {
+      data: {
+        animal: 'panda',
+      },
+      width:'460px',
+    });
+  }
+
+  updatedocumentInfo() {
+    // doc api to add
+  }
+
+  dismiss(data: any){
+    console.log(data)
   }
 }
 

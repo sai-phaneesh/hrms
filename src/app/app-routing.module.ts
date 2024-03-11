@@ -12,20 +12,11 @@ const routes: Routes = [
   { path: 'forgot-password', loadComponent: () => import('src/profile/components/forgotPassword/fp.component').then(mod => mod.ForgotPasswordComponent) },
   { path: 'home/leave', canActivate: [AuthGuard], loadComponent: () => import('src/leaveManagement/components/leave/leave.component').then(mod => mod.LeaveComponent) },
   { path: 'home/profile', canActivate: [AuthGuard], loadComponent: () => import('src/profile/components/profile/profile.component').then(comp => comp.ProfileComponent) },
-
-  // { path: 'signup', component: SignupComponent },
-  // { path: 'forgot-password', component: ForgotPasswordComponent },
-  // { path: '', redirectTo: 'home/leave', pathMatch: 'full'},
+  // otherwise redirect to profile
   // {
-  //   path: 'home/:id',
-  //   canActivate: [AuthGuard],
-  //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  //   path: '**',
+  //   redirectTo: 'home/profile',
   // },
-  // otherwise redirect to home
-  {
-    path: '**',
-    redirectTo: 'home/leave',
-  },
 ];
 
 @NgModule({

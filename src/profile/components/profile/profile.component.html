@@ -10,8 +10,8 @@
       <ion-col size="9">
 
         <!-- Tabs -->
-        <ion-segment (ionChange)="segmentChanged($event)" value="Personal">
-          <ion-segment-button value="Personal">
+        <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
+          <ion-segment-button value="personal">
             <ion-label>
               Personal
             </ion-label>
@@ -28,13 +28,13 @@
             </ion-label>
           </ion-segment-button>
 
-          <ion-segment-button value="Document">
+          <ion-segment-button value="document">
             <ion-label>
               Document
             </ion-label>
           </ion-segment-button>
 
-          <ion-segment-button value="OfficialLetter">
+          <ion-segment-button value="officialLetter">
             <ion-label>
               Official Letter
             </ion-label>
@@ -42,7 +42,7 @@
         </ion-segment>
 
         <!------------------------------------------- Tab/Segment == Personal --------------------------------------------->
-        <ion-card *ngIf="segment === 'Personal'">
+        <ion-card *ngIf="segment === 'personal'">
           <ion-card-header class="card-header">
             <ion-card-title>Personal Info
               <span>
@@ -98,7 +98,7 @@
           </ion-card-content>
         </ion-card>
 
-        <ion-card *ngIf="segment === 'Personal'">
+        <ion-card *ngIf="segment === 'personal'">
           <ion-card-header class="card-header">
             <ion-card-title>Contact Info
               <ion-icon (click)="contactInfoEnable(true)" name="pencil" style="float: right;"></ion-icon><br>
@@ -305,7 +305,6 @@
             <ion-card-title>Educational Info
               <ion-icon (click)="educationInfoForm.enable()" name="pencil" style="float: right;"></ion-icon><br>
             </ion-card-title>
-            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
           </ion-card-header>
 
           <ion-card-content>
@@ -344,36 +343,16 @@
                   </ion-col>
 
                   <ion-col size="4">
-                    <!-- <ion-item>
-                      <ion-label>Date of Birth</ion-label>
-                      <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
-                    </ion-item> -->
                     <ion-item>
-                      <!-- <ion-label>Course Start Date</ion-label> -->
-                      <ion-input label="Course Start Date" id="date" class="ion-text-end"
+                      <ion-input label="Course Start Date" type="date" placeholder="YYYY-MM-DD" labelPlacement="stacked"
                         formControlName="courseStartDate"></ion-input>
-                      <ion-popover trigger="date" size="cover">
-                        <ng-template>
-                          <ion-datetime presentation="date" locale="en-GB"></ion-datetime>
-                        </ng-template>
-                      </ion-popover>
                     </ion-item>
                   </ion-col>
 
                   <ion-col size="4">
-                    <!-- <ion-item>
-                      <ion-label>Date of Birth</ion-label>
-                      <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
-                    </ion-item> -->
                     <ion-item>
-                      <!-- <ion-label>Course End Date</ion-label> -->
-                      <ion-input label="Course End Date" id="date2" class="ion-text-end"
+                      <ion-input label="Course End Date" type="date" labelPlacement="stacked"
                         formControlName="courseEndDate"></ion-input>
-                      <ion-popover trigger="date2" size="cover">
-                        <ng-template>
-                          <ion-datetime presentation="date" locale="en-GB"></ion-datetime>
-                        </ng-template>
-                      </ion-popover>
                     </ion-item>
                   </ion-col>
 
@@ -384,11 +363,8 @@
                     </ion-item>
                   </ion-col>
 
-
-
                   <ion-col size="6" class="">
                     <ion-item>
-
                       <ion-select label="University Name" formControlName="universityName" interface="popover"
                         label-placement="stacked">
                         <ion-select-option value="apple">BIET</ion-select-option>
@@ -411,8 +387,102 @@
           </ion-card-content>
         </ion-card>
 
-      </ion-col>
+
+        <!-- Document segment -->
+        <ion-card *ngIf="segment === 'document'">
+          <ion-card-header class="card-header">
+            <ion-card-title>Document Info
+              <ion-icon (click)="documentInfoForm.enable()" name="pencil" style="float: right;"></ion-icon><br>
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <form [formGroup]="documentInfoForm">
+              <ion-grid>
+                <ion-row>
+
+                  <ion-col size="4">
+                    <ion-item>
+                      <ion-input label="Full Name" labelPlacement="stacked" formControlName="fullName"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-item>
+                      <ion-input label="Date of Birth" labelPlacement="stacked"
+                        formControlName="dateOfBirth"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-item>
+                      <ion-input label="age" labelPlacement="stacked" formControlName="age"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="12" class="">
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-input label="Permanent Address" labelPlacement="stacked"
+                          formControlName="permanentAddress"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-col>
+                  <ion-col size="12">
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-input label="Uploaded Document" labelPlacement="stacked"
+                          formControlName="uploadedDocument"></ion-input>
+                        <ion-button (click)="addDocs()" [disabled]="documentInfoForm.status === 'DISABLED'">
+                          <ion-icon (click)="documentInfoForm.enable()" name="add" style="float: right;"></ion-icon>
+                          Add</ion-button>
+                      </ion-item>
+                    </ion-col>
+                  </ion-col>
+
+                  <!-- <ion-col size="12" >
+                    <ion-item>
+                      <ion-button (click)="addDocs()" [disabled]="documentInfoForm.status === 'DISABLED'">
+                        <ion-icon (click)="documentInfoForm.enable()" name="add" style="float: right;"></ion-icon>
+                      Add</ion-button>
+                    </ion-item>
+                  </ion-col> -->
+
+                </ion-row>
+              </ion-grid>
+
+              <ion-item>
+
+                <ion-button [disabled]="documentInfoForm.status === 'DISABLED'" type="submit"
+                  (click)="updatedocumentInfo()">Save</ion-button>
+                <ion-button fill="clear" [disabled]="documentInfoForm.status === 'DISABLED'"
+                  (click)="documentInfoForm.disable()">Cancel</ion-button>
+              </ion-item>
+            </form>
+          </ion-card-content>
+        </ion-card>
+
+      <!-- </ion-col> -->
+
+
+      <!-- official letter segment -->
+      <ion-card *ngIf="segment === 'officialLetter'">
+        <ion-card-header class="card-header">
+          <ion-card-title>Upload Document
+            <!-- <ion-icon (click)="documentInfoForm.enable()" name="pencil" style="float: right;"></ion-icon><br> -->
+          </ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <app-upload-files></app-upload-files>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-col>
+
+
     </ion-row>
   </ion-grid>
+
+
+
 
 </ion-content>
