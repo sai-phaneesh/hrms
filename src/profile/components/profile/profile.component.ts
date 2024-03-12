@@ -7,6 +7,7 @@ import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angula
 import { MatDialog } from '@angular/material/dialog';
 import { UploadDocComponent } from '../uploadDoc/index';
 import { UploadFilesComponent } from 'src/common/components/upload-files/upload-files.component';
+import { ProfileService } from 'src/profile/services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,25 +16,26 @@ import { UploadFilesComponent } from 'src/common/components/upload-files/upload-
   standalone: true,
   imports: [
     IonicModule,
-    NgFor,
     RouterLinkActive,
     RouterLink,
     HeaderComponent,
     NgIf,
+    NgFor,
     ReactiveFormsModule,
     UploadFilesComponent,
-  ]
+  ],
+  providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
   public title = 'Profile';
   public imageAvailable: boolean = false;
-  segment: any = 'officialLetter';
+  segment: any = 'personal';
   userData: any;
   basicInfoEdit: boolean;
   personalInfoEdit: boolean = false;
   contactInfoEdit: boolean = false;
   docUpload: any;
- 
+
   personalInfoForm: FormGroup;
   contactInfoForm: FormGroup;
   basicInfoForm: FormGroup;
@@ -42,16 +44,24 @@ export class ProfileComponent implements OnInit {
   educationInfoForm: FormGroup;
   documentInfoForm: FormGroup;
 
-  constructor( public dialog: MatDialog ) {
+  constructor(public dialog: MatDialog, public profileService: ProfileService) {
     this.getUserInfo();
     this.personalInfoForm = new FormGroup({
-      name: new FormControl({ value: this.userData.name, disabled: !this.personalInfoEdit }, Validators.required,),
-      dateOfBirth: new FormControl({ value: this.userData.dateOfBirth, disabled: !this.personalInfoEdit }, Validators.required),
-      gender: new FormControl({ value: this.userData.gender, disabled: !this.personalInfoEdit }, Validators.required),
-      bloodGroup: new FormControl({ value: this.userData.bloodGroup, disabled: !this.personalInfoEdit }, Validators.required),
-      maritalStatus: new FormControl({ value: this.userData.maritalStatus, disabled: !this.personalInfoEdit }, Validators.required)
+      name: new FormControl({ value: this.userData?.personalInfo?.name, disabled: !this.personalInfoEdit }),
+      dateOfBirth: new FormControl({ value: this.userData?.personalInfo?.dateOfBirth, disabled: !this.personalInfoEdit }),
+      gender: new FormControl({ value: this.userData?.personalInfo?.gender, disabled: !this.personalInfoEdit }),
+      bloodGroup: new FormControl({ value: this.userData?.personalInfo?.bloodGroup, disabled: !this.personalInfoEdit }),
+      maritalStatus: new FormControl({ value: this.userData?.personalInfo?.maritalStatus, disabled: !this.personalInfoEdit })
     });
 
+    this.workHistoryInfoForm = new FormGroup({
+      companyName: new FormControl({ value: this.userData?.workHistory[0]?.companyName, disabled: true }, Validators.required,),
+      designation: new FormControl({ value: this.userData?.workHistory[0]?.designation, disabled: true }, Validators.required,),
+      from: new FormControl({ value: this.userData?.workHistory[0]?.fromDate, disabled: true }, Validators.required),
+      till: new FormControl({ value: this.userData?.workHistory[0]?.toDate, disabled: true }, Validators.required),
+    });
+
+    //yet to update
     this.contactInfoForm = new FormGroup({
       officeMailId: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required,),
       contactMailId: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required),
@@ -59,6 +69,7 @@ export class ProfileComponent implements OnInit {
       altPhoneNum: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required)
     });
 
+    //yet to update
     this.basicInfoForm = new FormGroup({
       employeeId: new FormControl({ value: '-', disabled: !this.basicInfoEdit }, Validators.required,),
       dateOfJoining: new FormControl({ value: '-', disabled: !this.basicInfoEdit }, Validators.required),
@@ -67,28 +78,27 @@ export class ProfileComponent implements OnInit {
       employeeType: new FormControl({ value: '-', disabled: !this.basicInfoEdit }, Validators.required)
     });
 
+    //yet to update
     this.workInfoForm = new FormGroup({
       designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
       jobTitle: new FormControl({ value: '-', disabled: true }, Validators.required),
       department: new FormControl({ value: '-', disabled: true }, Validators.required),
     });
 
-    this.workHistoryInfoForm = new FormGroup({
-      designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
-      from: new FormControl({ value: '-', disabled: true }, Validators.required),
-      till: new FormControl({ value: '-', disabled: true }, Validators.required),
-    });
-
+    
+    //make it as array
     this.educationInfoForm = new FormGroup({
-      employeeId: new FormControl({ value: 1233, disabled: true }, Validators.required,),
-      courseName: new FormControl({ value: '-', disabled: true }, Validators.required),
-      courseType: new FormControl({ value: '-', disabled: true }, Validators.required),
-      courseStartDate: new FormControl({ value: '-', disabled: true }, Validators.required),
-      courseEndDate: new FormControl({ value: '-', disabled: true }, Validators.required),
-      collegeName: new FormControl({ value: '-', disabled: true }, Validators.required),
-      universityName: new FormControl({ value: '-', disabled: true }, Validators.required),
+      employeeId: new FormControl({ value: '', disabled: true }, Validators.required,),
+      id: new FormControl({ value: 0, disabled: true }, Validators.required,),
+      courseName: new FormControl({ value: this.userData?.educationalInfo[0]?.courseName, disabled: true }, Validators.required),
+      courseType: new FormControl({ value: this.userData?.educationalInfo[0]?.courseType, disabled: true }, Validators.required),
+      courseStartDate: new FormControl({ value: this.userData?.educationalInfo[0]?.courseStartDate, disabled: true }, Validators.required),
+      courseEndDate: new FormControl({ value: this.userData?.educationalInfo[0]?.courseEndDate, disabled: true }, Validators.required),
+      collegeName: new FormControl({ value: this.userData?.educationalInfo[0]?.collegeName, disabled: true }, Validators.required),
+      universityName: new FormControl({ value: this.userData?.educationalInfo[0]?.universityName, disabled: true }, Validators.required),
     });
 
+    //yet to update
     this.documentInfoForm = new FormGroup({
       fullName: new FormControl({ value: '-', disabled: true }, Validators.required,),
       dateOfBirth: new FormControl({ value: '-', disabled: true }, Validators.required),
@@ -103,35 +113,44 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserInfo() {
+    this.profileService.getUserInfo()
+      .pipe()
+      .subscribe(
+        data => {
+          this.userData = data;
+        },
+        error => {
+
+        });
     //get method to get info
-    this.userData = {
-      name: "Savan",
-      dateOfBirth: "25-04-1995",
-      gender: "Male",
-      bloodGroup: "O+ve",
-      maritalStatus: "Married",
-      personalEmail: "string",
-      phoneNumber: "string",
-      alternatePhoneNumber: "string",
-      permanentAddress: {
-        addressLine1: "string",
-        addressLine2: "string",
-        landmark: "string",
-        city: "string",
-        country: "string",
-        state: "string",
-        pinCode: "string",
-      },
-      temporaryAddress: {
-        addressLine1: "string",
-        addressLine2: "string",
-        landmark: "string",
-        city: "string",
-        country: "string",
-        state: "string",
-        pinCode: "string"
-      }
-    };
+    //   this.userData = {
+    //     name: "Savan",
+    //     dateOfBirth: "25-04-1995",
+    //     gender: "Male",
+    //     bloodGroup: "O+ve",
+    //     maritalStatus: "Married",
+    //     personalEmail: "string",
+    //     phoneNumber: "string",
+    //     alternatePhoneNumber: "string",
+    //     permanentAddress: {
+    //       addressLine1: "string",
+    //       addressLine2: "string",
+    //       landmark: "string",
+    //       city: "string",
+    //       country: "string",
+    //       state: "string",
+    //       pinCode: "string",
+    //     },
+    //     temporaryAddress: {
+    //       addressLine1: "string",
+    //       addressLine2: "string",
+    //       landmark: "string",
+    //       city: "string",
+    //       country: "string",
+    //       state: "string",
+    //       pinCode: "string"
+    //     }
+    //   };
   }
   upload() {
     console.log('upload clicked');
@@ -141,9 +160,14 @@ export class ProfileComponent implements OnInit {
     this.segment = ev.detail.value;
   }
 
-  updatePersonalInfo() {
-    this.personalInfoForm.disable();
-    console.log('update personal info');
+  updatePersonalInfo(form: any) {
+    this.profileService.updatePersonalInfo(JSON.stringify(form.value))
+      .subscribe(data => {
+        console.log(data);
+        this.personalInfoForm.disable();
+      },
+        error => console.error(error)
+      )
   }
 
   personalInfoEnable(value: boolean) {
@@ -168,6 +192,13 @@ export class ProfileComponent implements OnInit {
 
   updateContactInfo() {
     this.basicInfoForm.disable();
+    this.profileService.updateContactInfo(JSON.stringify(this.contactInfoForm.value))
+      .subscribe(data => {
+        console.log(data);
+        this.basicInfoForm.disable();
+      },
+        error => console.error(error)
+      )
     // api call
   }
 
@@ -196,7 +227,7 @@ export class ProfileComponent implements OnInit {
       data: {
         animal: 'panda',
       },
-      width:'460px',
+      width: '460px',
     });
   }
 
@@ -204,7 +235,7 @@ export class ProfileComponent implements OnInit {
     // doc api to add
   }
 
-  dismiss(data: any){
+  dismiss(data: any) {
     console.log(data)
   }
 }

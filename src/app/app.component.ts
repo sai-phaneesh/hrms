@@ -18,15 +18,15 @@ import { IonicModule } from '@ionic/angular';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Leave Management', url: '/home/leave', icon: 'mail' },
-    { title: 'Assets', url: '/home/assets', icon: 'paper-plane' },
-    { title: 'Roles', url: '/home/favorites', icon: 'heart' },
-    { title: 'Dashboard', url: '/home/archived', icon: 'archive' },
-    { title: 'Groups', url: '/home/trash', icon: 'trash' },
-    { title: 'Timesheets', url: '/home/spam', icon: 'warning' },
-    { title: 'Shift Management', url: '/home/spam', icon: 'home' },
-    { title: 'Hiring', url: '/home/spam', icon: 'mail' },
-    { title: 'Company Settings', url: '/home/spam', icon: 'home' },
+    { title: 'Profile', url: '/home/profile', icon: 'person' },
+    { title: 'Leave Management', url: '/home/leave', icon: 'calendar' },
+    { title: 'Assets', url: '/home/assets', icon: 'laptop' },
+    { title: 'Roles', url: '/home/favorites', icon: 'people' },
+    { title: 'Dashboard', url: '/home/archived', icon: 'pie-chart' },
+    // { title: 'Groups', url: '/home/trash', icon: 'trash' },
+    { title: 'Timesheets', url: '/home/spam', icon: 'alarm' },
+    { title: 'Shift Management', url: '/home/spam', icon: 'man' },
+    { title: 'Hiring', url: '/home/spam', icon: 'bag' },
   ];
   public labels = ['Report', 'Settings', 
   // 'Notes', 'Work', 'Travel', 'Reminders'
@@ -35,7 +35,7 @@ export class AppComponent {
 
   async ngOnInit() {
     await SplashScreen.show({
-      showDuration: 2000,
+      showDuration: 3000,
       autoHide: true,
     });
   }

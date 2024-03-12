@@ -9,7 +9,7 @@ import { NgFor, NgIf } from '@angular/common';
 // import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource, MatNoDataRow } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -35,6 +35,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatInputModule,
     NgFor,
     NgIf,
+    MatNoDataRow,
     MatIconModule
   ],
   providers: [

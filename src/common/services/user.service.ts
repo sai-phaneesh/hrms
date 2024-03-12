@@ -7,6 +7,9 @@ import { User } from 'src/common/models';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+    getUserInfo(){
+        return this.http.get(`/hrms/loggedin-user`);
+    }
     getAll() {
         return this.http.get<User[]>(`/users`);
     }

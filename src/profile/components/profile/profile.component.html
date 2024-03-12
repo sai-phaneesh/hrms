@@ -90,8 +90,8 @@
               </ion-grid>
               <ion-item>
 
-                <ion-button [disabled]="!personalInfoEdit" (click)="updatePersonalInfo()">Save</ion-button>
-                <ion-button [disabled]="!personalInfoEdit" fill="clear"
+                <ion-button [disabled]="personalInfoForm.status === 'DISABLED'" (click)="updatePersonalInfo(personalInfoForm)">Save</ion-button>
+                <ion-button [disabled]="personalInfoForm.status === 'DISABLED'" fill="clear"
                   (click)="personalInfoEnable(false)">Cancel</ion-button>
               </ion-item>
             </form>
@@ -143,9 +143,9 @@
 
             <ion-item>
 
-              <ion-button [disabled]="!contactInfoEdit" type="submit"
-                (click)="contactInfoEnable(false)">Save</ion-button>
-              <ion-button fill="clear" [disabled]="!contactInfoEdit"
+              <ion-button [disabled]="contactInfoForm.status === 'DISABLED'" type="submit"
+                (click)="updatePersonalInfo(contactInfoForm)">Save</ion-button>
+              <ion-button fill="clear" [disabled]="contactInfoForm.status === 'DISABLED'"
                 (click)="contactInfoEdit = false">Cancel</ion-button>
             </ion-item>
           </ion-card-content>
@@ -203,7 +203,7 @@
 
             <ion-item>
               <ion-button [disabled]="basicInfoForm.status === 'DISABLED'" type="submit"
-                (click)="updateBasicInfo()">Save</ion-button>
+                (click)="updatePersonalInfo(basicInfoForm)">Save</ion-button>
               <ion-button fill="clear" [disabled]="basicInfoForm.status === 'DISABLED'"
                 (click)="basicInfoForm.disable()">Cancel</ion-button>
             </ion-item>
@@ -246,7 +246,7 @@
             </form>
             <ion-item>
               <ion-button [disabled]="workInfoForm.status === 'DISABLED'" type="submit"
-                (click)="updateWorkInfo()">Save</ion-button>
+                (click)="updatePersonalInfo(workInfoForm)">Save</ion-button>
               <ion-button fill="clear" [disabled]="workInfoForm.status === 'DISABLED'"
                 (click)="workInfoForm.disable()">Cancel</ion-button>
             </ion-item>
@@ -290,7 +290,7 @@
             <ion-item>
 
               <ion-button [disabled]="workHistoryInfoForm.status === 'DISABLED'" type="submit"
-                (click)="updateWorkHistoryInfo()">Save</ion-button>
+                (click)="updatePersonalInfo(workHistoryInfoForm)">Save</ion-button>
               <ion-button fill="clear" [disabled]="workHistoryInfoForm.status === 'DISABLED'"
                 (click)="workHistoryInfoForm.disable()">Cancel</ion-button>
             </ion-item>
@@ -380,7 +380,7 @@
             <ion-item>
 
               <ion-button [disabled]="educationInfoForm.status === 'DISABLED'" type="submit"
-                (click)="updateEducationInfo()">Save</ion-button>
+                (click)="updatePersonalInfo(educationInfoForm)">Save</ion-button>
               <ion-button fill="clear" [disabled]="educationInfoForm.status === 'DISABLED'"
                 (click)="educationInfoForm.disable()">Cancel</ion-button>
             </ion-item>
@@ -472,6 +472,14 @@
         </ion-card-header>
 
         <ion-card-content>
+          <ion-item>
+            <!-- <div *ngFor="let docsAvailabel in userData.officialDocuments"> -->
+            <div *ngIf="userData?.officialDocuments && userData?.officialDocuments.length">
+              <div class="docs-list" *ngFor="let docsAvailabel of userData.officialDocuments">
+                {{docsAvailabel.filePath}}/{{docsAvailabel.folderName}}/{{docsAvailabel.fileName}}
+              </div>
+            </div>
+          </ion-item>
           <app-upload-files></app-upload-files>
         </ion-card-content>
       </ion-card>

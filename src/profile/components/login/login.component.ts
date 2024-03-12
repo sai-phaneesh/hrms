@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AlertService, AuthenticationService } from 'src/common/services';
+import { AlertService, AuthenticationService, UserService } from 'src/common/services';
 import { MenuController, IonicModule } from '@ionic/angular';
 import { NgIf } from '@angular/common';
 
@@ -27,11 +27,13 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     showPassword: boolean = false;
+    userInfo: any;
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
+        private userService : UserService,
         private alertService: AlertService,
         public menuCtrl: MenuController) {}
 
@@ -68,8 +70,14 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.menuCtrl.enable(true);
-                    this.router.navigate(['/home/profile']);
+                    this.userService.getUserInfo().subscribe((data: any) => {
+                        this.userInfo = data;
+                        localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+                        localStorage.setItem('userRole', this.userInfo.companyRole);
+
+                        this.router.navigate(['/home/profile']);
+                        this.menuCtrl.enable(true);
+                    });
                 },
                 error => {
                     this.alertService.error(error);
