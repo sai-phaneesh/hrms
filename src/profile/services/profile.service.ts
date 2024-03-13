@@ -12,13 +12,28 @@ export class ProfileService {
     }
 
     updatePersonalInfo(body:any){
-        return this.http.patch('/hrms/employee/personal-info', body)
+        const header ={
+            "Accept": "application/merge-patch+json",
+            "Content-Type": "application/merge-patch+json"
+        }
+        return this.http.patch('/hrms/employee/personal-info', body, {headers: header})
     }
 
     updateContactInfo(body:any) {
         return this.http.patch('/hrms/employee/contact-info', body)
     }
 
+    updateEducationInfo(body:any) {
+        return this.http.post('/hrms/employee/education', body)
+    }
+ 
+    get(url: string){
+        return this.http.get(url);
+    }
+
+    post(body:any){
+        return this.http.get(JSON.stringify(body));
+    }
 
     login(username: string, password: string) {
         return this.http.post(`/generateToken`, { userName: username, password: password }, {responseType: 'text'})

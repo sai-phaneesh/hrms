@@ -63,7 +63,7 @@
 
                   <ion-col size="4" class="">
                     <ion-item>
-                      <ion-input label="Date of Birth" labelPlacement="stacked"
+                      <ion-input label="Date of Birth" labelPlacement="stacked" aria-placeholder="YYYY-MM-DD"
                         formControlName="dateOfBirth"></ion-input>
                     </ion-item>
                   </ion-col>
@@ -76,7 +76,7 @@
 
                   <ion-col size="4" class="">
                     <ion-item>
-                      <ion-input label="Blood Group" labelPlacement="stacked" formControlName="bloodGroup"></ion-input>
+                      <ion-input label="Blood Group" labelPlacement="stacked" formControlName="bloodGroup" aria-placeholder="O_POSITIVE"></ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size="4" class="">
@@ -268,6 +268,12 @@
                 <ion-row>
                   <ion-col size="4" class="">
                     <ion-item>
+                      <ion-input label="Company Name" labelPlacement="stacked" formControlName="companyName"></ion-input>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col size="4" class="">
+                    <ion-item>
                       <ion-input label="Designation" labelPlacement="stacked" formControlName="designation"></ion-input>
                     </ion-item>
                   </ion-col>
@@ -380,7 +386,7 @@
             <ion-item>
 
               <ion-button [disabled]="educationInfoForm.status === 'DISABLED'" type="submit"
-                (click)="updatePersonalInfo(educationInfoForm)">Save</ion-button>
+                (click)="updateEducationInfo()">Save</ion-button>
               <ion-button fill="clear" [disabled]="educationInfoForm.status === 'DISABLED'"
                 (click)="educationInfoForm.disable()">Cancel</ion-button>
             </ion-item>
@@ -426,7 +432,7 @@
                       </ion-item>
                     </ion-col>
                   </ion-col>
-                  <ion-col size="12">
+                  <!-- <ion-col size="12">
                     <ion-col size="4">
                       <ion-item>
                         <ion-input label="Uploaded Document" labelPlacement="stacked"
@@ -436,7 +442,7 @@
                           Add</ion-button>
                       </ion-item>
                     </ion-col>
-                  </ion-col>
+                  </ion-col> -->
 
                   <!-- <ion-col size="12" >
                     <ion-item>
@@ -445,7 +451,20 @@
                       Add</ion-button>
                     </ion-item>
                   </ion-col> -->
+                    <ion-label> &nbsp; &nbsp;  &nbsp;Uploaded Document</ion-label><br>
+                    <!-- <div *ngFor="let docsAvailabel in userData.officialDocuments"> -->
+                  <ion-item>
 
+                    <div *ngIf="userData?.personalDocuments && userData?.personalDocuments.length">
+                      <div class="docs-list" *ngFor="let docsAvailabel of userData.personalDocuments">
+                        <a (click)="downloadDoc(docsAvailabel.folderName+'/'+docsAvailabel.fileName)">{{docsAvailabel.fileName}}</a>
+                      </div>
+                    </div>
+                    
+                  </ion-item>
+                  <ion-button (click)="addDocs()" [disabled]="documentInfoForm.status === 'DISABLED'">
+                    <ion-icon (click)="documentInfoForm.enable()" name="add" style="float: right;"></ion-icon>
+                    Add</ion-button>
                 </ion-row>
               </ion-grid>
 

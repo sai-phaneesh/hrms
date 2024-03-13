@@ -46,19 +46,24 @@ export class ProfileComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public profileService: ProfileService) {
     this.getUserInfo();
+
+  }
+
+  ngOnInit() {
+    // this.addDocs();
     this.personalInfoForm = new FormGroup({
-      name: new FormControl({ value: this.userData?.personalInfo?.name, disabled: !this.personalInfoEdit }),
-      dateOfBirth: new FormControl({ value: this.userData?.personalInfo?.dateOfBirth, disabled: !this.personalInfoEdit }),
-      gender: new FormControl({ value: this.userData?.personalInfo?.gender, disabled: !this.personalInfoEdit }),
-      bloodGroup: new FormControl({ value: this.userData?.personalInfo?.bloodGroup, disabled: !this.personalInfoEdit }),
-      maritalStatus: new FormControl({ value: this.userData?.personalInfo?.maritalStatus, disabled: !this.personalInfoEdit })
+      name: new FormControl({ value: '-', disabled: !this.personalInfoEdit }),
+      dateOfBirth: new FormControl({ value:'',disabled: !this.personalInfoEdit }),
+      gender: new FormControl({ value: '-', disabled: !this.personalInfoEdit }),
+      bloodGroup: new FormControl({ value: '', disabled: !this.personalInfoEdit }),
+      maritalStatus: new FormControl({ value: '-', disabled: !this.personalInfoEdit })
     });
 
     this.workHistoryInfoForm = new FormGroup({
-      companyName: new FormControl({ value: this.userData?.workHistory[0]?.companyName, disabled: true }, Validators.required,),
-      designation: new FormControl({ value: this.userData?.workHistory[0]?.designation, disabled: true }, Validators.required,),
-      from: new FormControl({ value: this.userData?.workHistory[0]?.fromDate, disabled: true }, Validators.required),
-      till: new FormControl({ value: this.userData?.workHistory[0]?.toDate, disabled: true }, Validators.required),
+      companyName: new FormControl({ value: '-', disabled: true }, Validators.required),
+      designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
+      from: new FormControl({ value: '-', disabled: true }, Validators.required),
+      till: new FormControl({ value: '-', disabled: true }, Validators.required),
     });
 
     //yet to update
@@ -85,11 +90,11 @@ export class ProfileComponent implements OnInit {
       department: new FormControl({ value: '-', disabled: true }, Validators.required),
     });
 
-    
+
     //make it as array
     this.educationInfoForm = new FormGroup({
-      employeeId: new FormControl({ value: '', disabled: true }, Validators.required,),
-      id: new FormControl({ value: 0, disabled: true }, Validators.required,),
+      // employeeId: new FormControl({ value: '', disabled: true }, Validators.required,),
+      // id: new FormControl({ value: 0, disabled: true }, Validators.required,),
       courseName: new FormControl({ value: this.userData?.educationalInfo[0]?.courseName, disabled: true }, Validators.required),
       courseType: new FormControl({ value: this.userData?.educationalInfo[0]?.courseType, disabled: true }, Validators.required),
       courseStartDate: new FormControl({ value: this.userData?.educationalInfo[0]?.courseStartDate, disabled: true }, Validators.required),
@@ -108,19 +113,40 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // this.addDocs();
-  }
-
   getUserInfo() {
     this.profileService.getUserInfo()
       .pipe()
       .subscribe(
         data => {
           this.userData = data;
+
+          // Update personal info
+          this.personalInfoForm.setValue({
+            name: this.userData?.personalInfo?.name,
+            dateOfBirth: this.userData?.personalInfo?.dateOfBirth,
+            gender: this.userData?.personalInfo?.gender,
+            bloodGroup: this.userData?.personalInfo?.bloodGroup,
+            maritalStatus: this.userData?.personalInfo?.maritalStatus
+          });
+
+          // update work info
+          this.workHistoryInfoForm.setValue({
+            companyName: this.userData?.workHistory[0]?.companyName,
+            designation: this.userData?.workHistory[0]?.designation,
+            from: this.userData?.workHistory[0]?.fromDate,
+            till: this.userData?.workHistory[0]?.toDate,
+          });
+
+          //update contact history
+          this.contactInfoForm.setValue({
+            officeMailId: '-',
+            contactMailId: '-',
+            phoneNumber: '-',
+            altPhoneNum: '-',
+          });
+
         },
         error => {
-
         });
     //get method to get info
     //   this.userData = {
@@ -165,9 +191,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.personalInfoForm.disable();
-      },
-        error => console.error(error)
-      )
+      })
   }
 
   personalInfoEnable(value: boolean) {
@@ -220,6 +244,13 @@ export class ProfileComponent implements OnInit {
   updateEducationInfo() {
     this.educationInfoForm.disable();
     //api call
+    this.profileService.updateEducationInfo(JSON.stringify(this.educationInfoForm.value))
+      .subscribe(data => {
+        console.log(data);
+        // this.basicInfoForm.disable();
+      },
+        error => console.error(error)
+      )
   }
 
   addDocs() {
@@ -237,6 +268,16 @@ export class ProfileComponent implements OnInit {
 
   dismiss(data: any) {
     console.log(data)
+  }
+
+  downloadDoc(path:string) {
+    this.profileService.get('/hrms/employee/download-file/'+ path)
+      .subscribe(data => {
+        console.log(data);
+        // this.basicInfoForm.disable();
+      },
+        error => console.error(error)
+      )
   }
 }
 

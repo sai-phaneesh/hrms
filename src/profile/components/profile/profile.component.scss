@@ -31,6 +31,8 @@
     border-style: groove;
     padding: 4px;
     background-color: #e0e0e0;
-    min-width: 250px;
+    max-width: 500px;
     margin-bottom: 2px;
+    text-wrap: wrap;
+    display: -webkit-inline-box;
   }
