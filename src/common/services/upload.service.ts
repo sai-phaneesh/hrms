@@ -5,16 +5,15 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class UploadFilesService {
 
-  private baseUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
-  upload(file: File): Observable<HttpEvent<any>> {
+  upload(folder: string, file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
 
-    const req = new HttpRequest('POST', `${this.baseUrl}/upload`, formData, {
+    const req = new HttpRequest('POST', `/hrms/employee/upload-file/${folder}`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -23,6 +22,6 @@ export class UploadFilesService {
   }
 
   getFiles(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/files`);
+    return this.http.get('/files');
   }
 }

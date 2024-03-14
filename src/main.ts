@@ -12,7 +12,7 @@ import { AlertService, AuthenticationService, UserService } from 'src/common/ser
 import { AuthGuard } from 'src/common/guards';
 import { IonicRouteStrategy, IonicModule } from '@ionic/angular';
 import { RouteReuseStrategy } from '@angular/router';
-import { JwtInterceptor } from 'src/common/helpers/jwt.interceptor';
+import { JwtInterceptor, ErrorInterceptor } from 'src/common/helpers/index';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
@@ -30,6 +30,7 @@ bootstrapApplication(AppComponent, {
         UserService,
         provideHttpClient(withInterceptorsFromDi()),
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         JwtInterceptor,
         HttpClient
     ]

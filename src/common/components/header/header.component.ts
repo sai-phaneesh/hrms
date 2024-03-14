@@ -25,9 +25,11 @@ import { NgIf } from '@angular/common';
 export class HeaderComponent implements OnInit {
    @Input() public title: any;
     lastName: any;
+    image: string | null;
     constructor() {}
 
     ngOnInit() {
         this.lastName = JSON.parse(localStorage.getItem('userInfo') || '').lastName;
+        this.image = localStorage.getItem('profilePic');
     }
 }

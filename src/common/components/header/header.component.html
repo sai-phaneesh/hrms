@@ -8,7 +8,9 @@
         <ion-icon name="people-outline"></ion-icon> Group &nbsp;
         <ion-icon aria-hidden="true" slot="start" [ios]="'mail' + '-outline'" [md]="'mail' + '-outline'"></ion-icon> Mail  &nbsp;
         <ion-icon name="notifications-outline"></ion-icon> Notification  &nbsp; |  &nbsp;
-        <ion-icon name="person-circle-outline" [routerLink]="['/home/profile']"></ion-icon>Hi, {{lastName}}  &nbsp;
+        <ion-icon *ngIf="!image" name="person-circle-outline" [routerLink]="['/home/profile']"></ion-icon>
+        <img *ngIf="image" [src]="image" class="profileThum" [routerLink]="['/home/profile']">
+        Hi, {{lastName}}  &nbsp;
       </span>
     </ion-toolbar>
   </ion-header>

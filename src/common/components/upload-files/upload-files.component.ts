@@ -25,12 +25,12 @@ export class UploadFilesComponent implements OnInit {
     progressInfos: { value: Number, fileName: String }[] = [];
     message = '';
 
-    fileInfos: Observable<any>;
+    // fileInfos: Observable<any>;
 
     constructor(private uploadService: UploadFilesService) { }
 
     ngOnInit() {
-        this.fileInfos = this.uploadService.getFiles();
+        // this.fileInfos = this.uploadService.getFiles();
     }
 
     selectFiles(event: any) {
@@ -50,17 +50,17 @@ export class UploadFilesComponent implements OnInit {
         let fileObj = { value: 0, fileName: file.name };
         this.progressInfos[idx] = fileObj;
 
-        this.uploadService.upload(file).subscribe(
+        this.uploadService.upload('OFFICIAL_DOCUMENTS', file).subscribe(
             event => {
                 if (event.type === HttpEventType.UploadProgress) {
                     this.progressInfos[idx].value = Math.round(100 * event.loaded / (event.total || 1));
                 } else if (event instanceof HttpResponse) {
-                    this.fileInfos = this.uploadService.getFiles();
+                    // this.fileInfos = this.uploadService.getFiles();
                 }
             },
             err => { 
                 this.progressInfos[idx].value = 0;
-                this.message = 'Could not upload the file:' + file.name;
+                // this.message = 'Could not upload the file:' + file.name;
             });
     }
 
