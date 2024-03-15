@@ -28,7 +28,7 @@ export class AppComponent {
     { title: 'Shift Management', url: '/home/spam', icon: 'man' },
     { title: 'Hiring', url: '/home/spam', icon: 'bag' },
   ];
-  public labels = ['Report', 'Settings', 
+  public labels = ['Settings', 
   // 'Notes', 'Work', 'Travel', 'Reminders'
 ];
   constructor() {}

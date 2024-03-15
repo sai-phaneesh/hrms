@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
   http: any;
   uploadSub: any;
   uploadProgress: number;
-  aaa: any;
+  uploadClicked: boolean = false;
 
   constructor(public dialog: MatDialog, public profileService: ProfileService, public sanitizer: DomSanitizer, private uploadService: UploadFilesService) {
     this.getUserInfo();
@@ -204,10 +204,17 @@ export class ProfileComponent implements OnInit {
     //     }
     //   };
   }
-  upload() {
-    console.log('upload clicked');
+  // upload() {
+  //   console.log('upload clicked');
+  // }
+addWorkHistory(){
+  {
+    // companyName: this.userData?.workHistory[0]?.companyName || null,
+    // designation: this.userData?.workHistory[0]?.designation || null,
+    // fromDate: this.userData?.workHistory[0]?.fromDate || null,
+    // toDate: this.userData?.workHistory[0]?.toDate || null,
   }
-
+}
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;
   }
