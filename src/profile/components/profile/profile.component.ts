@@ -3,7 +3,7 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from 'src/common/components/header/header.component';
-import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadDocComponent } from '../uploadDoc/index';
 import { UploadFilesComponent } from 'src/common/components/upload-files/upload-files.component';
@@ -69,11 +69,14 @@ export class ProfileComponent implements OnInit {
     });
 
     this.workHistoryInfoForm = new FormGroup({
-      companyName: new FormControl({ value: '-', disabled: true }, Validators.required),
-      designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
-      fromDate: new FormControl({ value: '-', disabled: true }, Validators.required),
-      toDate: new FormControl({ value: '-', disabled: true }, Validators.required),
-    });
+      companyList: new FormArray([]),
+    })
+    //  new FormGroup({
+    //   companyName: new FormControl({ value: '-', disabled: true }, Validators.required),
+    //   designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
+    //   fromDate: new FormControl({ value: '-', disabled: true }, Validators.required),
+    //   toDate: new FormControl({ value: '-', disabled: true }, Validators.required),
+    // });
 
     //yet to update
     this.contactInfoForm = new FormGroup({
@@ -141,13 +144,13 @@ export class ProfileComponent implements OnInit {
             maritalStatus: this.userData?.personalInfo?.maritalStatus
           });
 
-          // update work info
-          this.workHistoryInfoForm.setValue({
-            companyName: this.userData?.workHistory[0]?.companyName || null,
-            designation: this.userData?.workHistory[0]?.designation || null,
-            fromDate: this.userData?.workHistory[0]?.fromDate || null,
-            toDate: this.userData?.workHistory[0]?.toDate || null,
-          });
+          // // update work info
+          // this.workHistoryInfoForm.setValue({
+          //   companyName: this.userData?.workHistory[0]?.companyName || null,
+          //   designation: this.userData?.workHistory[0]?.designation || null,
+          //   fromDate: this.userData?.workHistory[0]?.fromDate || null,
+          //   toDate: this.userData?.workHistory[0]?.toDate || null,
+          // });
 
           //edducational history
           this.educationalInfoForm.setValue({
@@ -160,7 +163,12 @@ export class ProfileComponent implements OnInit {
             collegeName: this.userData?.educationalInfo[0]?.collegeName,
           });
 
-
+          this.companyList.clear(); // clearing this to avoid duplicate load
+          for (let history of this.userData?.workHistory) {
+            this.addWorkHistory(history);
+          }
+          // disable form on load
+          this.workHistoryInfoForm.disable()
 
           //update contact history
           this.contactInfoForm.setValue({
@@ -174,6 +182,8 @@ export class ProfileComponent implements OnInit {
         error => {
           // alert(error)
         });
+
+
     //get method to get info
     //   this.userData = {
     //     name: "Savan",
@@ -207,24 +217,52 @@ export class ProfileComponent implements OnInit {
   // upload() {
   //   console.log('upload clicked');
   // }
-addWorkHistory(){
-  {
-    // companyName: this.userData?.workHistory[0]?.companyName || null,
-    // designation: this.userData?.workHistory[0]?.designation || null,
-    // fromDate: this.userData?.workHistory[0]?.fromDate || null,
-    // toDate: this.userData?.workHistory[0]?.toDate || null,
+  get companyList() {
+    return this.workHistoryInfoForm.get('companyList') as FormArray;
   }
-}
+
+  addWorkHistory(value?: any, disabled = true) {
+    let lastCompany = new FormGroup({
+      companyName: new FormControl({ value: value?.companyName, disabled: disabled }, Validators.required),
+      designation: new FormControl({ value: value?.designation, disabled: disabled }, Validators.required,),
+      fromDate: new FormControl({ value: value?.fromDate, disabled: disabled }, Validators.required),
+      toDate: new FormControl({ value: value?.toDate, disabled: disabled }, Validators.required),
+      id: new FormControl({ value: value?.id}),
+    });
+
+    this.companyList.push(lastCompany);
+  }
+
+  removeWorkHistory(i: number, id: { value: number; }) {
+    console.log(id);
+    this.companyList.removeAt(i);
+    this.profileService.deleteWorkHistory(id.value).subscribe({
+      next: ()=> console.log('success'),
+      error: ()=> console.log('error')
+    })
+  }
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;
   }
 
   updatePersonalInfo(form: any) {
     this.profileService.updatePersonalInfo(JSON.stringify(form.value))
-      .subscribe(data => {
-        console.log(data);
-        this.personalInfoForm.disable();
+      .subscribe({
+        next: (data) => { this.personalInfoForm.disable(); },
+        error: (err) => { 
+          if(err === "OK"){
+            this.personalInfoForm.disable()
+          }
+        }
+
       })
+    // .subscribe(
+    //   data => {
+    //   console.log(data);
+    //   this.personalInfoForm.disable();
+    // },
+    // error => alert('aaa')
+    // )
   }
 
   personalInfoEnable(value: boolean) {
@@ -236,6 +274,11 @@ addWorkHistory(){
       this.personalInfoForm.disable();
     }
   }
+
+  // toggleEdit(index: number) {
+  //   const control = this.companyList.at(index).get('enabled');
+  //   control?.setValue(!control.value);
+  // }
 
   contactInfoEnable(value: boolean) {
     this.contactInfoEdit = value;
@@ -256,7 +299,6 @@ addWorkHistory(){
       },
         error => console.error(error)
       )
-    // api call
   }
 
   updateBasicInfo() {
@@ -269,21 +311,38 @@ addWorkHistory(){
 
   }
 
-  updateWorkHistoryInfo() {
+  updateWorkHistoryInfo(index: any, value: any) {
+    // delete value.id;
+    console.log(value);
     this.workHistoryInfoForm.disable();
     // api call
     let body: any = {}
-    body.experienceDetails = [];
-    body.experienceDetails.push(this.workHistoryInfoForm.value);
 
-    // api call
-    this.profileService.updateWorkInfo(JSON.stringify(body))
+    if(value.id.value) {
+      body = JSON.parse(JSON.stringify(value));
+      delete body.id;
+      // api call PUT
+      this.profileService.updateWorkInfo(JSON.stringify(body), value.id.value)
       .subscribe(data => {
         console.log(data);
         this.workHistoryInfoForm.disable();
       },
-        error => console.error(error)
+        error => {this.getUserInfo();}
       )
+    }
+
+    else {
+      body.experienceDetails = [value];
+      // api POST
+      this.profileService.addWorkInfo(JSON.stringify(body))
+      .subscribe(data => {
+        console.log(data);
+        this.workHistoryInfoForm.disable();
+      },
+        error => {this.getUserInfo();}
+      )
+    }
+    
   }
 
   updateEducationalInfo() {
@@ -372,7 +431,7 @@ addWorkHistory(){
   downloadFile(data: any) {
     const blob = new Blob([data]);
     let url = window.URL.createObjectURL(blob);
-    url = url.replace('192.168.0.190:8100', '13.235.98.232:9000');
+    // url = url.replace('192.168.0.190:8100', '13.235.98.232:9000');
     window.open(url);
   }
 
@@ -395,15 +454,18 @@ addWorkHistory(){
 
   uploadProfilePic(event: any) {
     let file = event?.target?.files[0];
-    this.uploadService.upload('PERSONAL_DOCUMENTS', file).subscribe(
-      event => {
-        console.log(event);
-        this.loadProfilePic({ filePath: "PERSONAL_DOCUMENTS/superadmin_2024_03_15T00_54_35_575181529_profilePic.png" })
-      },
-      err => {
-        // this.progressInfos[idx].value = 0;
-        // this.message = 'Could not upload the file:' + file.name;
-      });
+    this.uploadService.upload('PERSONAL_DOCUMENTS', file)
+      .pipe()
+      .subscribe(
+        data => {
+          console.log(data);
+          this.getUserInfo();
+          // this.loadProfilePic({ filePath: "PERSONAL_DOCUMENTS/superadmin_2024_03_15T00_54_35_575181529_profilePic.png" })
+        },
+        error => {
+          // this.progressInfos[idx].value = 0;
+          // this.message = 'Could not upload the file:' + file.name;
+        })
   }
 }
 

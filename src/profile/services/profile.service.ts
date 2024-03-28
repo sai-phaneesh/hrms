@@ -27,8 +27,16 @@ export class ProfileService {
         return this.http.patch('/hrms/employee/contact-info', body)
     }
 
-    updateWorkInfo(body: any) {
+    updateWorkInfo(body: any, id: number) {
+        return this.http.put(`/hrms/employee/work-history/${id}`, body, { headers: this.defaultHeader} )
+    }
+
+    addWorkInfo(body: any) {
         return this.http.post('/hrms/employee/work-history', body, { headers: this.defaultHeader} )
+    }
+
+    deleteWorkHistory(i: number) {
+        return this.http.delete(`/hrms/employee/work-history/${i}`)
     }
 
     updateEducationalInfo(body: any) {
@@ -85,5 +93,8 @@ export class ProfileService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('token');
+        localStorage.removeItem('profilePic');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userInfo');
     }
 }

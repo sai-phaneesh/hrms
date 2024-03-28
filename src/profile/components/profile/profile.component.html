@@ -7,7 +7,7 @@
         <img *ngIf="imageUrl" class="profile-pic" [src]="imageUrl">
         <ion-icon *ngIf="!imageUrl" class="profile-pic" name="person-circle-outline"></ion-icon><br>
         <a (click)="uploadClicked = !uploadClicked" *ngIf="!uploadClicked">Upload pic</a>
-        <input type="file"  *ngIf="uploadClicked" (change)="uploadProfilePic($event)" />
+        <input type="file" *ngIf="uploadClicked" (change)="uploadProfilePic($event)" />
 
       </ion-col>
       <ion-col size="9">
@@ -291,43 +291,63 @@
 
           <ion-card-content>
             <form [formGroup]="workHistoryInfoForm">
-              <ion-grid>
-                <ion-row>
-                  <ion-col size="4" class="">
-                    <ion-item>
-                      <ion-input label="Company Name" labelPlacement="stacked"
-                        formControlName="companyName"></ion-input>
-                    </ion-item>
-                  </ion-col>
+              <div formArrayName="companyList">
+                <ion-grid *ngFor="let workHistory of companyList.controls; let i = index" class="formArray"
+                  [formGroupName]="i">
+                  <ion-row style="float:right">
+                    <!-- <ion-icon (click)="toggleEdit(i)" name="pencil" class="editIcon"></ion-icon> -->
+                    <ion-icon (click)="removeWorkHistory(i, workHistory.value.id)" name="close-circle"
+                      class="deleteIcon"></ion-icon>
 
-                  <ion-col size="4" class="">
-                    <ion-item>
-                      <ion-input label="Designation" labelPlacement="stacked" formControlName="designation"></ion-input>
-                    </ion-item>
-                  </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-input label="Company Name" labelPlacement="stacked"
+                          formControlName="companyName"></ion-input>
+                      </ion-item>
+                    </ion-col>
 
-                  <ion-col size="4" class="">
-                    <ion-item>
-                      <ion-input label="From Date" labelPlacement="stacked" formControlName="fromDate"></ion-input>
-                    </ion-item>
-                  </ion-col>
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-input label="Designation" labelPlacement="stacked"
+                          formControlName="designation"></ion-input>
+                      </ion-item>
+                    </ion-col>
 
-                  <ion-col size="4" class="">
-                    <ion-item>
-                      <ion-input label="To Date" labelPlacement="stacked" formControlName="toDate"></ion-input>
-                    </ion-item>
-                  </ion-col>
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-input label="From Date" labelPlacement="stacked" formControlName="fromDate"></ion-input>
+                      </ion-item>
+                    </ion-col>
 
-                </ion-row>
-              </ion-grid>
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-input label="To Date" labelPlacement="stacked" formControlName="toDate"></ion-input>
+                      </ion-item>
+                    </ion-col>
+
+                  </ion-row>
+                  <!-- <ion-button (click)="updateWorkHistoryInfo(i, workHistory.value.id)">Delete</ion-button> -->
+                  <ion-item>
+                    <ion-button [disabled]="workHistoryInfoForm.disabled || !workHistory.valid" type="submit"
+                      (click)="updateWorkHistoryInfo(i, workHistory.value)">Save</ion-button>
+                    <ion-button fill="clear" [disabled]="workHistoryInfoForm.status === 'DISABLED'"
+                      (click)="workHistory.disable()">Cancel</ion-button>
+                  </ion-item>
+                </ion-grid>
+                <ion-button [disabled]="workHistoryInfoForm.status === 'DISABLED'" (click)="addWorkHistory(null ,false)">Add</ion-button>
+
+              </div>
             </form>
-            <ion-item>
+
+            <!-- <ion-item>
 
               <ion-button [disabled]="workHistoryInfoForm.status === 'DISABLED'" type="submit"
                 (click)="updateWorkHistoryInfo()">Save</ion-button>
               <ion-button fill="clear" [disabled]="workHistoryInfoForm.status === 'DISABLED'"
                 (click)="workHistoryInfoForm.disable()">Cancel</ion-button>
-            </ion-item>
+            </ion-item> -->
           </ion-card-content>
         </ion-card>
 
@@ -460,7 +480,7 @@
                       </ion-item>
                     </ion-col>
                   </ion-col>
-                  
+
                   <ion-label> &nbsp; &nbsp; &nbsp;Uploaded Document</ion-label><br>
                   <!-- <div *ngFor="let docsAvailabel in userData.officialDocuments"> -->
                   <ion-item>
