@@ -336,7 +336,8 @@
                       (click)="workHistory.disable()">Cancel</ion-button>
                   </ion-item>
                 </ion-grid>
-                <ion-button [disabled]="workHistoryInfoForm.status === 'DISABLED'" (click)="addWorkHistory(null ,false)">Add</ion-button>
+                <ion-button [disabled]="workHistoryInfoForm.status === 'DISABLED'"
+                  (click)="addWorkHistory(null ,false)">Add</ion-button>
 
               </div>
             </form>
@@ -487,9 +488,11 @@
 
                     <div *ngIf="userData?.personalDocuments && userData?.personalDocuments.length">
                       <div class="docs-list" *ngFor="let docsAvailabel of userData.personalDocuments">
-                        <a
-                          (click)="downloadDoc(docsAvailabel.folderName+'/'+docsAvailabel.fileName)">{{docsAvailabel.fileName}}</a>
+                        <a style="color: blue;" (click)="downloadDoc(docsAvailabel.filePath ,docsAvailabel.originalFileName)">
+                          {{docsAvailabel.originalFileName}}
+                        </a>
                       </div>
+                      <br>
                     </div>
 
                   </ion-item>
@@ -526,7 +529,7 @@
               <!-- <div *ngFor="let docsAvailabel in userData.officialDocuments"> -->
               <div *ngIf="userData?.officialDocuments && userData?.officialDocuments.length">
                 <div class="docs-list" *ngFor="let docsAvailabel of userData.officialDocuments">
-                  {{docsAvailabel.originalFileName}}
+                  <a style="color: blue;" (click)="downloadDoc(docsAvailabel.filePath, docsAvailabel.originalFileName)">{{docsAvailabel.originalFileName}}</a>
                 </div>
               </div>
             </ion-item>

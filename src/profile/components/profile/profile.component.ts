@@ -372,13 +372,13 @@ export class ProfileComponent implements OnInit {
     console.log(data)
   }
 
-  downloadDoc(path: string) {
+  downloadDoc(path: string, fileName: string) {
     let thefile = {};
 
-    this.profileService.get('/hrms/employee/download-file/' + path)
+    this.profileService.getBlob('/hrms/employee/download-file/' + path)
       // this.profileService.get('/hrms/employee/download-file/' + 'PERSONAL_DOCUMENTS/superadmin_2024_03_13T22_17_43_710513768_WIN_20240311_19_08_28_Pro.jpg')
-      .subscribe((data: any) => this.downloadFile(data), //console.log(data),
-        error => this.downloadFile(error),
+      .subscribe((data: any) => this.downloadFile(data, fileName), //console.log(data),
+        error => this.downloadFile(error, fileName),
         // () => console.log('Completed file download.'));
       );
     // let url = window.URL.createObjectURL(thefile);
@@ -428,15 +428,15 @@ export class ProfileComponent implements OnInit {
     this.uploadSub = null;
   }
 
-  downloadFile(data: any) {
+  downloadFile(data: any, fileName: string) {
     const blob = new Blob([data]);
     let url = window.URL.createObjectURL(blob);
     // url = url.replace('192.168.0.190:8100', '13.235.98.232:9000');
-    window.open(url);
+    this.saveBlobToFile(blob, fileName);
   }
 
   loadProfilePic(obj: { filePath: string; }) {
-    this.profileService.get('/hrms/employee/download-file/' + obj.filePath)
+    this.profileService.getBlob('/hrms/employee/download-file/' + obj.filePath)
       // this.profileService.get('/hrms/employee/download-file/' + 'PERSONAL_DOCUMENTS/superadmin_2024_03_13T22_17_43_710513768_WIN_20240311_19_08_28_Pro.jpg')
       .subscribe((data: any) => {
         // this.downloadFile(data)
@@ -447,14 +447,14 @@ export class ProfileComponent implements OnInit {
         // this.imageUrl =this.sanitizer.bypassSecurityTrustUrl(url);
         console.log(this.imageUrl);
       }, //console.log(data),
-        error => this.downloadFile(error),
+        error => this.downloadFile(error, 'error'),
         // () => console.log('Completed file download.'));
       );
   }
 
   uploadProfilePic(event: any) {
     let file = event?.target?.files[0];
-    this.uploadService.upload('PERSONAL_DOCUMENTS', file)
+    this.uploadService.upload('PROFILE_PHOTO', file)
       .pipe()
       .subscribe(
         data => {
@@ -467,5 +467,38 @@ export class ProfileComponent implements OnInit {
           // this.message = 'Could not upload the file:' + file.name;
         })
   }
+  
+  // uploadProfilePic2(event: any) {
+  //   let file = event?.target?.files[0];
+  //   this.uploadService.upload('PERSONAL_DOCUMENTS', file)
+  //     .pipe()
+  //     .subscribe(
+  //       data => {
+  //         console.log(data);
+  //         this.getUserInfo();
+  //         // this.loadProfilePic({ filePath: "PERSONAL_DOCUMENTS/superadmin_2024_03_15T00_54_35_575181529_profilePic.png" })
+  //       },
+  //       error => {
+  //         // this.progressInfos[idx].value = 0;
+  //         // this.message = 'Could not upload the file:' + file.name;
+  //       })
+  // }
+
+  saveBlobToFile(blob: Blob, fileName: string) {
+    const blobUrl = URL.createObjectURL(blob);
+  
+    const anchor = document.createElement('a');
+    anchor.href = blobUrl;
+    anchor.download = fileName;
+  
+    document.body.appendChild(anchor);
+    // Trigger the download
+    anchor.click();
+  
+    // Clean up
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(blobUrl);
+  }
+
 }
 

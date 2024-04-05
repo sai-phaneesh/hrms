@@ -43,7 +43,7 @@ export class ProfileService {
         return this.http.post('/hrms/employee/education', body, { headers: this.defaultHeader })
     }
 
-    get(url: string) {
+    getBlob(url: string) {
         return this.http.get(url, { responseType: 'blob' })
     }
 
