@@ -71,6 +71,10 @@ export class ProfileComponent implements OnInit {
     this.workHistoryInfoForm = new FormGroup({
       companyList: new FormArray([]),
     })
+
+    this.educationalInfoForm = new FormGroup({
+      educationList: new FormArray([]),
+    })
     //  new FormGroup({
     //   companyName: new FormControl({ value: '-', disabled: true }, Validators.required),
     //   designation: new FormControl({ value: '-', disabled: true }, Validators.required,),
@@ -81,9 +85,9 @@ export class ProfileComponent implements OnInit {
     //yet to update
     this.contactInfoForm = new FormGroup({
       officeMailId: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required,),
-      contactMailId: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required),
+      personalEmail: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required),
       phoneNumber: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required),
-      altPhoneNum: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required)
+      alternatePhoneNumber: new FormControl({ value: '-', disabled: !this.contactInfoEdit }, Validators.required)
     });
 
     //yet to update
@@ -104,15 +108,15 @@ export class ProfileComponent implements OnInit {
 
 
     //make it as array
-    this.educationalInfoForm = new FormGroup({
-      degree: new FormControl({ value: this.userData?.educationalInfo[0]?.degree, disabled: true }, Validators.required),
-      courseName: new FormControl({ value: this.userData?.educationalInfo[0]?.courseName, disabled: true }, Validators.required),
-      courseType: new FormControl({ value: this.userData?.educationalInfo[0]?.courseType, disabled: true }, Validators.required),
-      fromDate: new FormControl({ value: this.userData?.educationalInfo[0]?.fromDate, disabled: true }, Validators.required),
-      toDate: new FormControl({ value: this.userData?.educationalInfo[0]?.toDate, disabled: true }, Validators.required),
-      collegeName: new FormControl({ value: this.userData?.educationalInfo[0]?.collegeName, disabled: true }, Validators.required),
-      universityName: new FormControl({ value: this.userData?.educationalInfo[0]?.universityName, disabled: true }, Validators.required),
-    });
+    // this.educationalInfoForm = new FormGroup({
+    //   degree: new FormControl({ value: this.userData?.educationalInfo[0]?.degree, disabled: true }, Validators.required),
+    //   courseName: new FormControl({ value: this.userData?.educationalInfo[0]?.courseName, disabled: true }, Validators.required),
+    //   courseType: new FormControl({ value: this.userData?.educationalInfo[0]?.courseType, disabled: true }, Validators.required),
+    //   fromDate: new FormControl({ value: this.userData?.educationalInfo[0]?.fromDate, disabled: true }, Validators.required),
+    //   toDate: new FormControl({ value: this.userData?.educationalInfo[0]?.toDate, disabled: true }, Validators.required),
+    //   collegeName: new FormControl({ value: this.userData?.educationalInfo[0]?.collegeName, disabled: true }, Validators.required),
+    //   universityName: new FormControl({ value: this.userData?.educationalInfo[0]?.universityName, disabled: true }, Validators.required),
+    // });
 
     //yet to update
     this.documentInfoForm = new FormGroup({
@@ -172,10 +176,10 @@ export class ProfileComponent implements OnInit {
 
           //update contact history
           this.contactInfoForm.setValue({
-            officeMailId: '-',
-            contactMailId: '-',
-            phoneNumber: '-',
-            altPhoneNum: '-',
+            officeMailId: this.userData?.personalInfo?.officeMailId|| '-',
+            personalEmail: this.userData?.personalInfo?.personalEmail,
+            phoneNumber: this.userData?.personalInfo?.phoneNumber,
+            alternatePhoneNumber: this.userData?.personalInfo?.alternatePhoneNumber,
           });
 
         },
@@ -221,6 +225,10 @@ export class ProfileComponent implements OnInit {
     return this.workHistoryInfoForm.get('companyList') as FormArray;
   }
 
+  get educationList() {
+    return this.workHistoryInfoForm.get('educationList') as FormArray;
+  }
+
   addWorkHistory(value?: any, disabled = true) {
     let lastCompany = new FormGroup({
       companyName: new FormControl({ value: value?.companyName, disabled: disabled }, Validators.required),
@@ -233,6 +241,19 @@ export class ProfileComponent implements OnInit {
     this.companyList.push(lastCompany);
   }
 
+  addEducationHistory(value?: any, disabled = true) {
+    let lastEducation = new FormGroup({degree: new FormControl({ value: this.userData?.educationalInfo[0]?.degree, disabled: true }, Validators.required),
+      courseName: new FormControl({ value: this.userData?.educationalInfo[0]?.courseName, disabled: true }, Validators.required),
+      courseType: new FormControl({ value: this.userData?.educationalInfo[0]?.courseType, disabled: true }, Validators.required),
+      fromDate: new FormControl({ value: this.userData?.educationalInfo[0]?.fromDate, disabled: true }, Validators.required),
+      toDate: new FormControl({ value: this.userData?.educationalInfo[0]?.toDate, disabled: true }, Validators.required),
+      collegeName: new FormControl({ value: this.userData?.educationalInfo[0]?.collegeName, disabled: true }, Validators.required),
+      universityName: new FormControl({ value: this.userData?.educationalInfo[0]?.universityName, disabled: true }, Validators.required),
+    });
+
+    this.educationList.push(lastEducation);
+  }
+
   removeWorkHistory(i: number, id: { value: number; }) {
     console.log(id);
     this.companyList.removeAt(i);
@@ -241,6 +262,16 @@ export class ProfileComponent implements OnInit {
       error: ()=> console.log('error')
     })
   }
+
+  removeEducationHistory(i: number, id: { value: number; }) {
+    console.log(id);
+    this.educationList.removeAt(i);
+    this.profileService.deleteEducationHistory(id.value).subscribe({
+      next: ()=> console.log('success'),
+      error: ()=> console.log('error')
+    })
+  }
+
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;
   }

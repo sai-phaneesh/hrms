@@ -39,6 +39,10 @@ export class ProfileService {
         return this.http.delete(`/hrms/employee/work-history/${i}`)
     }
 
+    deleteEducationHistory(i: number) {
+        return this.http.delete(`/hrms/employee/education-history/${i}`) // todo api not available
+    }
+
     updateEducationalInfo(body: any) {
         return this.http.post('/hrms/employee/education', body, { headers: this.defaultHeader })
     }
