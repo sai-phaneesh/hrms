@@ -487,22 +487,28 @@
                       </ion-item>
                     </ion-col>
                   </ion-col>
+                  <ion-col size="12" class="">
 
-                  <ion-label> &nbsp; &nbsp; &nbsp;Uploaded Document</ion-label><br>
+                    <ion-label> &nbsp; &nbsp; &nbsp;Uploaded Document</ion-label><br>
                   <!-- <div *ngFor="let docsAvailabel in userData.officialDocuments"> -->
-                  <ion-item>
+                    <ion-item>
 
                     <div *ngIf="userData?.personalDocuments && userData?.personalDocuments.length">
-                      <div class="docs-list" *ngFor="let docsAvailabel of userData.personalDocuments">
-                        <a style="color: blue;"
-                          (click)="downloadDoc(docsAvailabel.filePath ,docsAvailabel.originalFileName)">
-                          {{docsAvailabel.originalFileName}}
-                        </a>
+                      <div *ngFor="let docsAvailabel of userData.personalDocuments; let i=index">
+                        <div class="docs-list" *ngIf="docsAvailabel.originalFileName">
+                            <ion-icon name="document-outline" *ngIf="docsAvailabel.originalFileName"></ion-icon>
+                            <span style="color: blue;"
+                              (click)="downloadDoc(docsAvailabel.filePath ,docsAvailabel.originalFileName)">
+                              {{docsAvailabel.originalFileName}}
+                          </span>
+                          <ion-icon *ngIf="docsAvailabel.originalFileName" name="close-outline" style="float: right" (click)="deleteDocument(docsAvailabel.filePath, userData.personalDocuments, i)"></ion-icon>
+                        </div>
                       </div>
                       <br>
                     </div>
 
                   </ion-item>
+                  </ion-col>
                   <ion-button (click)="addDocs()" [disabled]="documentInfoForm.status === 'DISABLED'">
                     <ion-icon (click)="documentInfoForm.enable()" name="add" style="float: right;"></ion-icon>
                     Add</ion-button>
@@ -535,13 +541,19 @@
             <ion-item>
               <!-- <div *ngFor="let docsAvailabel in userData.officialDocuments"> -->
               <div *ngIf="userData?.officialDocuments && userData?.officialDocuments.length">
-                <div class="docs-list" *ngFor="let docsAvailabel of userData.officialDocuments">
-                  <a style="color: blue;"
-                    (click)="downloadDoc(docsAvailabel.filePath, docsAvailabel.originalFileName)">{{docsAvailabel.originalFileName}}</a>
+                <div *ngFor="let docsAvailabel of userData.officialDocuments; let i = index">
+                  <div class="docs-list" *ngIf="docsAvailabel.originalFileName">
+                  <ion-icon name="document-outline"></ion-icon>
+                  <span style="color: blue;"
+                    (click)="downloadDoc(docsAvailabel.filePath ,docsAvailabel.originalFileName)">
+                    {{docsAvailabel.originalFileName}}
+                </span>
+                <ion-icon name="close-outline" style="float: right" (click)="deleteDocument(docsAvailabel.filePath, userData.officialDocuments, i)"></ion-icon>
+                  </div>
                 </div>
               </div>
             </ion-item>
-            <app-upload-files></app-upload-files>
+            <app-upload-files [folderName]="'OFFICIAL_DOCUMENTS'" (success)="uploadSuccess($event)"></app-upload-files>
           </ion-card-content>
         </ion-card>
 

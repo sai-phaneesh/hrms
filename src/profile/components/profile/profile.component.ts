@@ -136,7 +136,7 @@ export class ProfileComponent implements OnInit {
           this.userData = data;
           this.imageUrl = localStorage.getItem('profilePic');
           if (!this.imageUrl) {
-            this.loadProfilePic(data.personalDocuments[1]);
+            this.loadProfilePic(data.profilePhoto[0]);
           }
 
           // Update personal info
@@ -148,29 +148,18 @@ export class ProfileComponent implements OnInit {
             maritalStatus: this.userData?.personalInfo?.maritalStatus
           });
 
-          // // update work info
-          // this.workHistoryInfoForm.setValue({
-          //   companyName: this.userData?.workHistory[0]?.companyName || null,
-          //   designation: this.userData?.workHistory[0]?.designation || null,
-          //   fromDate: this.userData?.workHistory[0]?.fromDate || null,
-          //   toDate: this.userData?.workHistory[0]?.toDate || null,
-          // });
 
-          //edducational history
-          this.educationalInfoForm.setValue({
-            universityName: this.userData?.educationalInfo[0]?.universityName || null,
-            degree: this.userData?.educationalInfo[0]?.degree,
-            courseName: this.userData?.educationalInfo[0]?.courseName,
-            courseType: this.userData?.educationalInfo[0]?.courseType,
-            fromDate: this.userData?.educationalInfo[0]?.fromDate,
-            toDate: this.userData?.educationalInfo[0]?.toDate,
-            collegeName: this.userData?.educationalInfo[0]?.collegeName,
-          });
 
           this.companyList.clear(); // clearing this to avoid duplicate load
           for (let history of this.userData?.workHistory) {
             this.addWorkHistory(history);
           }
+
+          this.educationList.clear(); // clearing this to avoid duplicate load
+          for (let history of this.userData?.educationalInfo) {
+            this.addEducationHistory(history);
+          }
+
           // disable form on load
           this.workHistoryInfoForm.disable()
 
@@ -188,45 +177,15 @@ export class ProfileComponent implements OnInit {
         });
 
 
-    //get method to get info
-    //   this.userData = {
-    //     name: "Savan",
-    //     dateOfBirth: "25-04-1995",
-    //     gender: "Male",
-    //     bloodGroup: "O+ve",
-    //     maritalStatus: "Married",
-    //     personalEmail: "string",
-    //     phoneNumber: "string",
-    //     alternatePhoneNumber: "string",
-    //     permanentAddress: {
-    //       addressLine1: "string",
-    //       addressLine2: "string",
-    //       landmark: "string",
-    //       city: "string",
-    //       country: "string",
-    //       state: "string",
-    //       pinCode: "string",
-    //     },
-    //     temporaryAddress: {
-    //       addressLine1: "string",
-    //       addressLine2: "string",
-    //       landmark: "string",
-    //       city: "string",
-    //       country: "string",
-    //       state: "string",
-    //       pinCode: "string"
-    //     }
-    //   };
   }
-  // upload() {
-  //   console.log('upload clicked');
-  // }
+
+
   get companyList() {
     return this.workHistoryInfoForm.get('companyList') as FormArray;
   }
 
   get educationList() {
-    return this.workHistoryInfoForm.get('educationList') as FormArray;
+    return this.educationalInfoForm.get('educationList') as FormArray;
   }
 
   addWorkHistory(value?: any, disabled = true) {
@@ -242,13 +201,14 @@ export class ProfileComponent implements OnInit {
   }
 
   addEducationHistory(value?: any, disabled = true) {
-    let lastEducation = new FormGroup({degree: new FormControl({ value: this.userData?.educationalInfo[0]?.degree, disabled: true }, Validators.required),
-      courseName: new FormControl({ value: this.userData?.educationalInfo[0]?.courseName, disabled: true }, Validators.required),
-      courseType: new FormControl({ value: this.userData?.educationalInfo[0]?.courseType, disabled: true }, Validators.required),
-      fromDate: new FormControl({ value: this.userData?.educationalInfo[0]?.fromDate, disabled: true }, Validators.required),
-      toDate: new FormControl({ value: this.userData?.educationalInfo[0]?.toDate, disabled: true }, Validators.required),
-      collegeName: new FormControl({ value: this.userData?.educationalInfo[0]?.collegeName, disabled: true }, Validators.required),
-      universityName: new FormControl({ value: this.userData?.educationalInfo[0]?.universityName, disabled: true }, Validators.required),
+    let lastEducation = new FormGroup({degree: new FormControl({ value: value?.degree, disabled: disabled }, Validators.required),
+      courseName: new FormControl({ value: value?.courseName, disabled: disabled }, Validators.required),
+      courseType: new FormControl({ value: value?.courseType, disabled: disabled }, Validators.required),
+      fromDate: new FormControl({ value: value?.fromDate, disabled: disabled }, Validators.required),
+      toDate: new FormControl({ value: value?.toDate, disabled: disabled }, Validators.required),
+      collegeName: new FormControl({ value: value?.collegeName, disabled: disabled }, Validators.required),
+      universityName: new FormControl({ value: value?.universityName, disabled: disabled }, Validators.required),
+      id: new FormControl({ value: value?.id}),
     });
 
     this.educationList.push(lastEducation);
@@ -306,10 +266,6 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // toggleEdit(index: number) {
-  //   const control = this.companyList.at(index).get('enabled');
-  //   control?.setValue(!control.value);
-  // }
 
   contactInfoEnable(value: boolean) {
     this.contactInfoEdit = value;
@@ -404,25 +360,28 @@ export class ProfileComponent implements OnInit {
   }
 
   downloadDoc(path: string, fileName: string) {
-    let thefile = {};
-
     this.profileService.getBlob('/hrms/employee/download-file/' + path)
-      // this.profileService.get('/hrms/employee/download-file/' + 'PERSONAL_DOCUMENTS/superadmin_2024_03_13T22_17_43_710513768_WIN_20240311_19_08_28_Pro.jpg')
-      .subscribe((data: any) => this.downloadFile(data, fileName), //console.log(data),
+      .subscribe((data: any) => this.downloadFile(data, fileName),
         error => this.downloadFile(error, fileName),
         // () => console.log('Completed file download.'));
       );
-    // let url = window.URL.createObjectURL(thefile);
-    // window.open(url);
+  }
 
-
-    // .subscribe((data) => {
-    //   console.log(data);
-    //   this.downloadFile(data);
-    //   // this.basicInfoForm.disable();
-    // },
-    //   error => { console.log(error); }
-    // )
+  deleteDocument(filePath: string, fileDeleted: any, i: number) {
+    this.profileService.deleteDocument(filePath)
+      // this.profileService.get('/hrms/employee/download-file/' + 'PERSONAL_DOCUMENTS/superadmin_2024_03_13T22_17_43_710513768_WIN_20240311_19_08_28_Pro.jpg')
+      .subscribe({
+        next: (v: any) => {
+          console.log('success');
+          delete fileDeleted[i];
+        },
+        error: (e: any) => {
+          if(e === "OK") {
+            console.log('error but OK');
+            delete fileDeleted[i];
+          }
+        },
+      });
   }
 
   onFileSelected(event: any) {
@@ -499,22 +458,6 @@ export class ProfileComponent implements OnInit {
         })
   }
   
-  // uploadProfilePic2(event: any) {
-  //   let file = event?.target?.files[0];
-  //   this.uploadService.upload('PERSONAL_DOCUMENTS', file)
-  //     .pipe()
-  //     .subscribe(
-  //       data => {
-  //         console.log(data);
-  //         this.getUserInfo();
-  //         // this.loadProfilePic({ filePath: "PERSONAL_DOCUMENTS/superadmin_2024_03_15T00_54_35_575181529_profilePic.png" })
-  //       },
-  //       error => {
-  //         // this.progressInfos[idx].value = 0;
-  //         // this.message = 'Could not upload the file:' + file.name;
-  //       })
-  // }
-
   saveBlobToFile(blob: Blob, fileName: string) {
     const blobUrl = URL.createObjectURL(blob);
   
@@ -529,6 +472,11 @@ export class ProfileComponent implements OnInit {
     // Clean up
     document.body.removeChild(anchor);
     URL.revokeObjectURL(blobUrl);
+  }
+
+  uploadSuccess(event: any) {
+    console.log(event);
+    this.getUserInfo();
   }
 
 }

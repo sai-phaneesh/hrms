@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { UploadFilesService } from 'src/common/services/upload.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -21,11 +21,16 @@ import { IonicModule } from '@ionic/angular';
 })
 export class UploadFilesComponent implements OnInit {
 
+    @Input()
+    public folderName = "OFFICIAL_DOCUMENTS"
+    
+    @Output()
+    public success = new EventEmitter<boolean>;
+
     selectedFiles: FileList;
     progressInfos: { value: Number, fileName: String }[] = [];
     message = '';
 
-    // fileInfos: Observable<any>;
 
     constructor(private uploadService: UploadFilesService) { }
 
@@ -59,8 +64,13 @@ export class UploadFilesComponent implements OnInit {
                 }
             },
             err => { 
-                this.progressInfos[idx].value = 0;
-                // this.message = 'Could not upload the file:' + file.name;
+                if(err === "OK"){
+                    this.progressInfos[idx].value = 100;
+                    this.message = 'File uploaded successfully';
+                    console.log(this.message);
+                    this.success.emit(true);
+                }
+                
             });
     }
 

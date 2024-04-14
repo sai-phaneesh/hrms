@@ -101,4 +101,8 @@ export class ProfileService {
         localStorage.removeItem('userRole');
         localStorage.removeItem('userInfo');
     }
+
+    deleteDocument(filePath: string){
+        return this.http.delete<any>(`/hrms/employee/delete-file/${filePath}`)
+    }
 }
